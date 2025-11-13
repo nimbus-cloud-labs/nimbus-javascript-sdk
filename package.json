@@ -15,7 +15,7 @@
     "lint": "eslint packages tests --max-warnings 0",
     "test": "vitest run",
     "dev": "vitest",
-    "gen": "node ../scripts/sdk/generate_typescript_sdk.mjs"
+    "gen": "node ../../scripts/sdk/generate_typescript_sdk.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

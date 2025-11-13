@@ -27,6 +27,6 @@
     "access": "restricted"
   },
   "dependencies": {
-    "@nimbus-cloud/sdk-core": "file:../core"
+    "@nimbus-cloud/sdk-core": "^0.1.0"
   }
 }
