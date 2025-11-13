@@ -1,0 +1,32 @@
+{
+  "name": "@nimbus-cloud/sdk-core",
+  "version": "0.1.0",
+  "description": "Core runtime utilities for Nimbus TypeScript SDK clients",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "license": "Apache-2.0",
+  "keywords": [
+    "nimbus",
+    "sdk"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.registry.nimbus.eu",
+    "access": "restricted"
+  },
+  "dependencies": {
+    "tslib": "^2.6.2"
+  }
+}

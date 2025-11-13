@@ -1,0 +1,30 @@
+{
+  "name": "@nimbus-cloud/typescript-sdk-monorepo",
+  "version": "0.1.0",
+  "description": "Nimbus TypeScript SDK workspace",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc -p tsconfig.build.json --noEmit",
+    "lint": "eslint packages tests --max-warnings 0",
+    "test": "vitest run",
+    "dev": "vitest",
+    "gen": "node ../scripts/sdk/generate_typescript_sdk.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^20.12.8",
+    "eslint": "^9.39.1",
+    "tslib": "^2.8.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^4.0.8"
+  }
+}
