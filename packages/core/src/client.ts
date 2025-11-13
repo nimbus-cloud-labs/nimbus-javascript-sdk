@@ -1,4 +1,4 @@
-import { AuthTokenProvider } from './auth';
+import { AuthTokenProvider, defaultAuthChain } from './auth';
 import { defaultIdempotencyProvider, IdempotencyTokenProvider } from './idempotency';
 import { LroWaiter, NoopOperationStatusClient, OperationStatusClient } from './lro';
 import { Paginator } from './paginator';
@@ -52,6 +52,7 @@ export class SdkConfigBuilder {
   private auth?: AuthTokenProvider;
   private idempotency?: IdempotencyTokenProvider;
   private lro?: OperationStatusClient;
+  private envProviderDisabled = false;
 
   endpoint(url: string): this {
     this.endpointUrl = url;
@@ -78,8 +79,14 @@ export class SdkConfigBuilder {
     return this;
   }
 
+  disableEnvProvider(disable = true): this {
+    this.envProviderDisabled = disable;
+    return this;
+  }
+
   build(): SdkConfig {
-    if (!this.auth) {
+    const auth = this.auth ?? this.buildDefaultAuthProvider();
+    if (!auth) {
       throw new BuildError('Auth provider is required');
     }
 
@@ -90,7 +97,7 @@ export class SdkConfigBuilder {
 
     return {
       transport,
-      auth: this.auth,
+      auth,
       idempotency: this.idempotency ?? defaultIdempotencyProvider(),
       lro: this.lro ?? new NoopOperationStatusClient()
     };
@@ -101,6 +108,13 @@ export class SdkConfigBuilder {
       return undefined;
     }
     return new FetchTransport(this.endpointUrl);
+  }
+
+  private buildDefaultAuthProvider(): AuthTokenProvider | undefined {
+    if (this.envProviderDisabled) {
+      return undefined;
+    }
+    return defaultAuthChain();
   }
 }
 
