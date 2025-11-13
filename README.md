@@ -1,5 +1,35 @@
 # Nimbus TypeScript SDK
 
-Generated service clients that mirror the Rust SDK feature set. Run `npm run gen` after
-adding or updating Smithy models to refresh the per-service packages under
+Generated service clients that mirror the Rust SDK feature set. Run `npm run gen`
+after adding or updating Smithy models to refresh the per-service packages under
 `packages/`.
+
+## Credential environment variables
+The JavaScript runtime loader resolves credentials from the environment using
+the `NIMBUS_` keys described in
+[`docs/sdk/glossary.md`](../../docs/sdk/glossary.md#credential-environment-variables).
+By default the loader inspects the unsuffixed variables (for example,
+`NIMBUS_ACCESS_KEY`) and falls back to profile-specific variants such as
+`NIMBUS_SECRET_KEY_ANALYTICS` when the consuming client selects a profile.
+
+Add credentials to a `.env` file when using tools like `npm run gen`:
+
+```dotenv
+# Default profile
+NIMBUS_ACCESS_KEY=ZZYX1EXAMPLEKEY00001
+NIMBUS_SECRET_KEY=Zm9vYmFyLXNlY3JldC1leGFtcGxlLXN0cmluZw==
+NIMBUS_REGION=eu-north-2
+
+# Profile named "analytics"
+NIMBUS_ACCESS_KEY_ANALYTICS=QQQ45ANALYTICSPROFILE
+NIMBUS_SECRET_KEY_ANALYTICS=YW5hbHl0aWNzLXNlY3JldC1iYXNlNjQ=
+NIMBUS_REGION_ANALYTICS=ap-south-3
+```
+
+Use the optional `credentialPrefix` option (or the `NIMBUS_CREDENTIAL_PREFIX`
+environment variable) to replace the `NIMBUS_` prefix when working alongside
+other cloud providers. The suffix validation and required base keys remain the
+same as documented in the glossary.
+
+When troubleshooting credential resolution, refer to the
+[glossary troubleshooting notes](../../docs/sdk/glossary.md#troubleshooting).
