@@ -82,17 +82,19 @@ export class DamIngestionUploader {
     if (typeof fetch !== 'function') {
       throw new Error('global fetch API is not available');
     }
+    const body: BodyInit = new Uint8Array(payload).buffer;
     const response = await fetch(ticket.upload_url, {
       method: 'PUT',
       headers: {
         'x-nimbus-upload-token': ticket.upload_token,
         'content-type': mediaType
       },
-      body: payload
+      body
     });
 
     if (!response.ok) {
       throw new Error(`upload request failed with status ${response.status}`);
     }
   }
+
 }

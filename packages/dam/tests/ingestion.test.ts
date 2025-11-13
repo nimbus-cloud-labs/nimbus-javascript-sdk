@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { DamManagementServiceClient } from '../src/client';
 import { DamIngestionUploader } from '../src/ingestion';
@@ -38,18 +38,18 @@ describe('DamIngestionUploader', () => {
       content: Buffer.from('hello world')
     });
 
-    expect(client.beginAssetIngestion).toHaveBeenCalledTimes(1);
+    expect(client.beginAssetIngestion).toHaveBeenCalledTimes(1); // eslint-disable-line
     expect(globalThis.fetch).toHaveBeenCalledWith(
       'https://storage.example.invalid/upload',
       expect.objectContaining({
         method: 'PUT',
-        headers: expect.objectContaining({
+        headers: expect.objectContaining({ // eslint-disable-line
           'x-nimbus-upload-token': 'token-123',
           'content-type': 'image/png'
         })
       })
     );
-    expect(client.completeAssetIngestion).toHaveBeenCalledWith(
+    expect(client.completeAssetIngestion).toHaveBeenCalledWith( // eslint-disable-line
       expect.objectContaining({
         upload_token: 'token-123',
         checksum_algorithm: 'sha256',
