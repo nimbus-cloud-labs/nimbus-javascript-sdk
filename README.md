@@ -33,3 +33,12 @@ same as documented in the glossary.
 
 When troubleshooting credential resolution, refer to the
 [glossary troubleshooting notes](../../docs/sdk/glossary.md#troubleshooting).
+
+## Instance metadata credentials
+
+Code deployed on Nimbus compute instances should call the metadata service
+outlined in [`docs/compute/metadata-service.md`](../../docs/compute/metadata-service.md)
+when it needs managed, short-lived credentials. The specification documents the
+mandatory headers, token TTL ceiling, allowed source networks, and per-instance
+rate limits. The TypeScript credential provider wraps these constraints with the
+standard retry and refresh logic exposed by the SDK runtime.
