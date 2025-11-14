@@ -33,6 +33,8 @@ same as documented in the glossary.
 
 When troubleshooting credential resolution, refer to the
 [glossary troubleshooting notes](../../docs/sdk/glossary.md#troubleshooting).
+The [credential provider precedence overview](../../docs/sdk/credential-provider-strategy.md#credential-provider-precedence)
+collects the shared diagram and comparison tables for overrides, caching, and error handling across SDKs.
 
 ## Instance metadata credentials
 
