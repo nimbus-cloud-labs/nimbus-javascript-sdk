@@ -2,6 +2,7 @@
 export type JsonValue = Record<string, unknown>;
 export type AccountRegistrationPayload = Record<string, unknown>;
 export type AssumeRoleRequest = Record<string, unknown>;
+export type ConsoleSessionContextUpdatePayload = Record<string, unknown>;
 export type ConsoleSessionStartRequest = Record<string, unknown>;
 export type ConsoleSessionStartRequestScopeList = Record<string, unknown>;
 export type CreatePolicy = Record<string, unknown>;
