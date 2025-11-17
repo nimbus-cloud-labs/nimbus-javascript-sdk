@@ -1,10 +1,17 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 describe('randomUuid runtime helper', () => {
-  const originalCrypto = globalThis.crypto;
+  const originalCryptoDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
 
   afterEach(() => {
-    globalThis.crypto = originalCrypto;
+    if (originalCryptoDescriptor) {
+      Object.defineProperty(globalThis, 'crypto', originalCryptoDescriptor);
+    } else {
+      delete (globalThis as Record<string, unknown>).crypto;
+    }
+    if (globalThisHasRequire()) {
+      delete (globalThis as Record<string, unknown>).require;
+    }
     vi.resetModules();
     vi.restoreAllMocks();
     vi.clearAllMocks();
@@ -12,7 +19,7 @@ describe('randomUuid runtime helper', () => {
 
   it('uses crypto.randomUUID when available', async () => {
     const randomUUID = vi.fn().mockReturnValue('12345678-1234-4000-8000-abcdefabcdef');
-    globalThis.crypto = { randomUUID } as unknown as Crypto;
+    setGlobalCrypto({ randomUUID } as unknown as Crypto);
 
     const randomUuid = await loadRandomUuid();
     expect(randomUuid()).toBe('12345678-1234-4000-8000-abcdefabcdef');
@@ -26,7 +33,7 @@ describe('randomUuid runtime helper', () => {
       array.set(bytes);
       return array;
     });
-    globalThis.crypto = { getRandomValues } as unknown as Crypto;
+    setGlobalCrypto({ getRandomValues } as unknown as Crypto);
 
     const randomUuid = await loadRandomUuid();
     const token = randomUuid();
@@ -38,9 +45,9 @@ describe('randomUuid runtime helper', () => {
   });
 
   it('falls back to node:crypto randomUUID when global crypto is missing', async () => {
-    globalThis.crypto = undefined as unknown as Crypto;
+    setGlobalCrypto(undefined);
     const randomUUID = vi.fn().mockReturnValue('deadbeef-dead-4000-8000-feedfacecafe');
-    vi.doMock('node:crypto', () => ({ randomUUID }));
+    defineGlobalRequire(() => ({ randomUUID }));
 
     const randomUuid = await loadRandomUuid();
     expect(randomUuid()).toBe('deadbeef-dead-4000-8000-feedfacecafe');
@@ -51,4 +58,35 @@ describe('randomUuid runtime helper', () => {
 async function loadRandomUuid(): Promise<() => string> {
   const mod = await import('@nimbus-cloud/sdk-core');
   return mod.randomUuid;
+}
+
+function setGlobalCrypto(value: Crypto | undefined): void {
+  Object.defineProperty(globalThis, 'crypto', {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    value
+  });
+}
+
+type RequireFunction = (id: string) => unknown;
+
+function defineGlobalRequire(factory: () => { randomUUID: () => string }): void {
+  const requireFn: RequireFunction = vi.fn((id: string) => {
+    if (id === 'node:crypto') {
+      return factory();
+    }
+    throw new Error(`require mock received unexpected module: ${id}`);
+  });
+
+  Object.defineProperty(globalThis, 'require', {
+    configurable: true,
+    enumerable: false,
+    writable: true,
+    value: requireFn
+  });
+}
+
+function globalThisHasRequire(): boolean {
+  return Object.prototype.hasOwnProperty.call(globalThis, 'require');
 }
