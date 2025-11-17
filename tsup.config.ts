@@ -36,6 +36,9 @@ export default defineConfig(() => {
     outDir: `packages/${pkg}/dist`,
     target: 'es2022',
     platform: 'neutral',
-    shims: false
+    shims: false,
+    outExtension({ format }) {
+      return format === 'esm' ? { js: '.mjs' } : { js: '.cjs' };
+    }
   }));
 });
