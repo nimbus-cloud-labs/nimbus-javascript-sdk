@@ -34,7 +34,7 @@ export default defineConfig(() => {
     minify: false,
     clean: false,
     outDir: `packages/${pkg}/dist`,
-    target: 'node20',
+    target: 'es2022',
     platform: 'neutral',
     shims: false
   }));

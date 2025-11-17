@@ -36,6 +36,18 @@ When troubleshooting credential resolution, refer to the
 The [credential provider precedence overview](../../docs/sdk/credential-provider-strategy.md#credential-provider-precedence)
 collects the shared diagram and comparison tables for overrides, caching, and error handling across SDKs.
 
+## Runtime helpers
+The core runtime exports lightweight utilities under `@nimbus-cloud/sdk-core` that work across
+Node.js and browser contexts. Use `encodeBase64` and `decodeBase64Json` from
+`packages/core/src/runtime/base64.ts` whenever a feature needs Base64 handling so that
+credentials, payload tokens, and similar artifacts do not depend on Node-specific globals.
+
+## Build targets
+Tsup emits both ESM and CJS bundles targeting `es2022` with the `platform` set to `neutral`,
+which keeps the generated code portable across runtimes. The SDK packages do not expose a
+dedicated `"browser"` entry today because every bundle is already universal; add one only if
+future Node-only optimizations require separate files.
+
 ## Instance metadata credentials
 
 Code deployed on Nimbus compute instances should call the metadata service

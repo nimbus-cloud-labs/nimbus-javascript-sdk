@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { randomUuid } from './runtime/random';
 
 export interface IdempotencyTokenProvider {
   nextToken(): string;
@@ -6,7 +6,7 @@ export interface IdempotencyTokenProvider {
 
 export class DefaultIdempotencyTokenProvider implements IdempotencyTokenProvider {
   nextToken(): string {
-    return randomUUID();
+    return randomUuid();
   }
 }
 

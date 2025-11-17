@@ -31,12 +31,12 @@ describe('DamIngestionUploader', () => {
     } as unknown as DamManagementServiceClient;
 
     const uploader = new DamIngestionUploader(client);
-    const result = await uploader.uploadBytes({
-      displayName: 'example.png',
-      mediaType: 'image/png',
-      metadata: { tags: ['demo'] },
-      content: Buffer.from('hello world')
-    });
+  const result = await uploader.uploadBytes({
+    displayName: 'example.png',
+    mediaType: 'image/png',
+    metadata: { tags: ['demo'] },
+    content: new TextEncoder().encode('hello world')
+  });
 
     expect(client.beginAssetIngestion).toHaveBeenCalledTimes(1); // eslint-disable-line
     expect(globalThis.fetch).toHaveBeenCalledWith(

@@ -1,7 +1,6 @@
-import { Buffer } from 'node:buffer';
-
 import type { AuthTokenProvider } from '../auth';
 import { AuthError } from '../errors';
+import { decodeBase64Json, encodeBase64 } from '../runtime/base64';
 
 const PROFILE_ENV = 'NIMBUS_PROFILE';
 const PROFILE_PREFIX = 'NIMBUS_PROFILE';
@@ -69,7 +68,7 @@ export class EnvironmentCredentialProvider implements AuthTokenProvider {
         return Promise.resolve(`Bearer ${credentials.sessionToken}`);
       }
       const raw = `${credentials.accessKey}:${credentials.secretKey}`;
-      const encoded = Buffer.from(raw, 'utf8').toString('base64');
+      const encoded = encodeBase64(raw);
       this.logger('Using static access/secret key pair for authorization header', {
         scope: describeScope(scope),
         accessKey: redact(credentials.accessKey)
@@ -155,8 +154,7 @@ export class EnvironmentCredentialProvider implements AuthTokenProvider {
         throw new AuthError(`Environment variable ${key} exceeds 512 characters.`);
       }
       try {
-        const decoded = Buffer.from(trimmed, 'base64').toString('utf8');
-        JSON.parse(decoded);
+        decodeBase64Json(trimmed);
       } catch (error) {
         const reason = error instanceof Error ? error.message : String(error);
         throw new AuthError(

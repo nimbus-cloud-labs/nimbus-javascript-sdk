@@ -5,4 +5,7 @@ export * from './errors';
 export * from './idempotency';
 export * from './lro';
 export * from './paginator';
+export * from './runtime/base64';
+export * from './runtime/hash';
+export * from './runtime/random';
 export * from './transport';

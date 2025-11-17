@@ -1,9 +1,13 @@
-import { Buffer } from 'node:buffer';
-
 import { afterEach, describe, expect, it } from 'vitest';
 
 import type { Transport, TransportRequest, TransportResponse } from '@nimbus-cloud/sdk-core';
-import { AuthError, BuildError, EnvironmentCredentialProvider, NimbusClient } from '@nimbus-cloud/sdk-core';
+import {
+  AuthError,
+  BuildError,
+  EnvironmentCredentialProvider,
+  NimbusClient,
+  encodeBase64
+} from '@nimbus-cloud/sdk-core';
 
 const ACCESS_KEY = 'ABCDEFGHIJKLMNOPQRST';
 const SECRET_KEY = 'abcdEFGHijklMNOPqrstUVWXyz0123456789ABCDabcd';
@@ -11,7 +15,7 @@ const REGION = 'eu-north-2';
 
 describe('EnvironmentCredentialProvider', () => {
   it('prefers profile-scoped credentials and falls back to session tokens', async () => {
-    const session = Buffer.from(JSON.stringify({ token: 'demo' }), 'utf8').toString('base64');
+    const session = encodeBase64(JSON.stringify({ token: 'demo' }));
     const provider = new EnvironmentCredentialProvider({
       env: {
         NIMBUS_PROFILE: 'analytics',
@@ -35,7 +39,7 @@ describe('EnvironmentCredentialProvider', () => {
       }
     });
 
-    const expected = Buffer.from(`${ACCESS_KEY}:${SECRET_KEY}`, 'utf8').toString('base64');
+    const expected = encodeBase64(`${ACCESS_KEY}:${SECRET_KEY}`);
     await expect(provider.authorizationHeader()).resolves.toBe(`Basic ${expected}`);
   });
 
@@ -87,7 +91,7 @@ describe('SdkConfigBuilder', () => {
 
     const config = NimbusClient.builder().withTransport(new NullTransport()).build();
     const header = await config.auth.authorizationHeader();
-    const expected = Buffer.from(`${ACCESS_KEY}:${SECRET_KEY}`, 'utf8').toString('base64');
+    const expected = encodeBase64(`${ACCESS_KEY}:${SECRET_KEY}`);
     expect(header).toBe(`Basic ${expected}`);
   });
 
