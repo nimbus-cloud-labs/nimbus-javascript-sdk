@@ -13,6 +13,7 @@ export type GroupMembershipPayload = Record<string, unknown>;
 export type GroupPayload = Record<string, unknown>;
 export type GroupRoleBindingPayload = Record<string, unknown>;
 export type GroupUpdatePayload = Record<string, unknown>;
+export type ManagedPolicyAttachmentPayload = Record<string, unknown>;
 export type OidcProviderPayload = Record<string, unknown>;
 export type OidcProviderUpdatePayload = Record<string, unknown>;
 export type Policy = Record<string, unknown>;
