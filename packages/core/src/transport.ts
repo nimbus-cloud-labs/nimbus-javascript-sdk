@@ -51,7 +51,9 @@ export class FetchTransport implements Transport {
       headers
     };
 
-    if (request.body !== undefined) {
+    if (request.method === SdkHttpMethod.Get && request.body !== undefined) {
+      appendQuery(target, request.body);
+    } else if (request.body !== undefined) {
       headers['content-type'] = headers['content-type'] ?? 'application/json';
       init.body = typeof request.body === 'string' ? request.body : JSON.stringify(request.body);
     }
@@ -85,4 +87,41 @@ export class FetchTransport implements Transport {
 
     return { status, headers: headerMap, body };
   }
+}
+
+function appendQuery(url: URL, payload: unknown): void {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return;
+  }
+  const params = new URLSearchParams(url.search);
+  for (const [key, raw] of Object.entries(payload as Record<string, unknown>)) {
+    if (raw === null || raw === undefined) {
+      continue;
+    }
+    if (Array.isArray(raw)) {
+      for (const item of raw) {
+        if (item === null || item === undefined) {
+          continue;
+        }
+        params.append(key, serializeQueryValue(item));
+      }
+      continue;
+    }
+    params.set(key, serializeQueryValue(raw));
+  }
+  const serialized = params.toString();
+  url.search = serialized ? `?${serialized}` : '';
+}
+
+function serializeQueryValue(value: unknown): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
+    return value.toString();
+  }
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  return JSON.stringify(value);
 }
