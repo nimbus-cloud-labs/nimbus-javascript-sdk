@@ -32,7 +32,7 @@ describe('TypeScript SDK end-to-end surface', () => {
     const result = await client.assumeRole({ role: 'admin', session: 'default' });
     expect(result).toEqual({ principal: 'test-principal' });
 
-    const assumeCall = backend.requests.find((req) => req.path === '/assume-role');
+    const assumeCall = backend.requests.find((req) => req.path === '/iam/assume-role');
     expect(assumeCall?.headers.authorization).toBe('Bearer integration-token');
   });
 
@@ -112,11 +112,11 @@ class MockBackend implements Transport {
       body: request.body
     });
 
-    if (request.method === SdkHttpMethod.Post && request.path === '/assume-role') {
+    if (request.method === SdkHttpMethod.Post && request.path === '/iam/assume-role') {
       return Promise.resolve(this.respond(200, { principal: 'test-principal' }));
     }
 
-    if (request.method === SdkHttpMethod.Post && request.path === '/token') {
+    if (request.method === SdkHttpMethod.Post && request.path === '/iam/token') {
       return Promise.resolve({
         status: 429,
         headers: { 'content-type': 'application/problem+json' },
