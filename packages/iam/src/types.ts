@@ -1,6 +1,10 @@
 // Generated types – do not edit.
 export type JsonValue = Record<string, unknown>;
 export type AccountRegistrationPayload = Record<string, unknown>;
+export type ApiKeyListResponse = Record<string, unknown>;
+export type ApiKeyListResponseKeysList = Record<string, unknown>;
+export type ApiKeyMetadata = Record<string, unknown>;
+export type ApiKeyResponse = Record<string, unknown>;
 export type AssumeRoleRequest = Record<string, unknown>;
 export type AuditEventEnvelope = Record<string, unknown>;
 export type AuditEventListResponse = Record<string, unknown>;
@@ -68,7 +72,6 @@ export type RoleResponsePolicyIdsList = Record<string, unknown>;
 export type RoleUpdatePayload = Record<string, unknown>;
 export type RoleUpdatePayloadAttributesMap = Record<string, unknown>;
 export type RoleUpdatePayloadPolicyIdsList = Record<string, unknown>;
-export type ServiceAccountKeyResponse = Record<string, unknown>;
 export type ServiceAccountListResponse = Record<string, unknown>;
 export type ServiceAccountListResponseServiceAccountsList = Record<string, unknown>;
 export type ServiceAccountPayload = Record<string, unknown>;
@@ -111,6 +114,7 @@ export type UpdatePolicy = Record<string, unknown>;
 export type UpdatePolicyStatementsList = Record<string, unknown>;
 export type UserDto = Record<string, unknown>;
 export type UserInvitePayload = Record<string, unknown>;
+export type UserKeyQuery = Record<string, unknown>;
 export type UserListResponse = Record<string, unknown>;
 export type UserListResponseUsersList = Record<string, unknown>;
 export type UserMfaRequirementPayload = Record<string, unknown>;

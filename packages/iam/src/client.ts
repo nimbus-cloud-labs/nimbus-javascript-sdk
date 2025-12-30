@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssumeRoleRequest, AuditEventEnvelope, AuditEventListResponse, AuditEventQuery, AuditEventResponse, AuditExportJobResponse, AuditExportQuery, CreatePolicy, GroupDto, GroupListResponse, GroupMembershipDto, GroupMembershipListResponse, GroupMembershipPayload, GroupMembershipResponse, GroupPayload, GroupResponse, GroupRoleBindingListResponse, GroupRoleBindingPayload, GroupRoleBindingResponse, GroupUpdatePayload, JsonValue, ManagedPolicyAttachmentListResponse, ManagedPolicyAttachmentPayload, ManagedPolicyListResponse, ManagedPolicyResponse, OidcProviderListResponse, OidcProviderPayload, OidcProviderQuery, OidcProviderResponse, OidcProviderUpdatePayload, Policy, PolicyAttachmentPayload, PolicyListQuery, PolicyListResponse, PolicyVersionListResponse, Principal, RoleListResponse, RolePayload, RoleQuery, RoleResponse, RoleUpdatePayload, ServiceAccountKeyResponse, ServiceAccountListResponse, ServiceAccountPayload, ServiceAccountQuery, ServiceAccountResponse, ServiceAccountTokenRevokePayload, ServiceAccountUpdatePayload, SessionListQuery, SessionListResponse, SessionRevokeAllPayload, SessionRevokePayload, SigningKeyResponse, TenantListResponse, TenantResponse, TenantSuspendPayload, TenantUpdatePayload, TokenRequest, TokenResponse, UpdatePolicy, UserDto, UserInvitePayload, UserListResponse, UserMfaRequirementPayload, UserPayload, UserProvisioningResponse, UserResponse, UserSessionListResponse, UserSessionResponse, UserUpdatePayload } from './types';
+import type { ApiKeyListResponse, ApiKeyMetadata, ApiKeyResponse, AssumeRoleRequest, AuditEventEnvelope, AuditEventListResponse, AuditEventQuery, AuditEventResponse, AuditExportJobResponse, AuditExportQuery, CreatePolicy, GroupDto, GroupListResponse, GroupMembershipDto, GroupMembershipListResponse, GroupMembershipPayload, GroupMembershipResponse, GroupPayload, GroupResponse, GroupRoleBindingListResponse, GroupRoleBindingPayload, GroupRoleBindingResponse, GroupUpdatePayload, JsonValue, ManagedPolicyAttachmentListResponse, ManagedPolicyAttachmentPayload, ManagedPolicyListResponse, ManagedPolicyResponse, OidcProviderListResponse, OidcProviderPayload, OidcProviderQuery, OidcProviderResponse, OidcProviderUpdatePayload, Policy, PolicyAttachmentPayload, PolicyListQuery, PolicyListResponse, PolicyVersionListResponse, Principal, RoleListResponse, RolePayload, RoleQuery, RoleResponse, RoleUpdatePayload, ServiceAccountListResponse, ServiceAccountPayload, ServiceAccountQuery, ServiceAccountResponse, ServiceAccountTokenRevokePayload, ServiceAccountUpdatePayload, SessionListQuery, SessionListResponse, SessionRevokeAllPayload, SessionRevokePayload, SigningKeyResponse, TenantListResponse, TenantResponse, TenantSuspendPayload, TenantUpdatePayload, TokenRequest, TokenResponse, UpdatePolicy, UserDto, UserInvitePayload, UserKeyQuery, UserListResponse, UserMfaRequirementPayload, UserPayload, UserProvisioningResponse, UserResponse, UserSessionListResponse, UserSessionResponse, UserUpdatePayload } from './types';
 
 export class IamServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -117,6 +117,17 @@ export class IamServiceClient {
   }
 
   /**
+   * Creates a new key for a service account.
+   */
+  async createServiceAccountKey(params: CreateServiceAccountKeyPathParams, body: ServiceAccountQuery): Promise<ApiKeyResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['service_account_id', String(params.service_account_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyResponse>(CREATE_SERVICE_ACCOUNT_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
    * Creates a signing key for a tenant.
    */
   async createSigningKey(params: CreateSigningKeyPathParams): Promise<SigningKeyResponse> {
@@ -146,6 +157,17 @@ export class IamServiceClient {
       ['tenant', String(params.tenant)]
     ];
     const result = await this.inner.invoke<UserProvisioningResponse>(CREATE_TENANT_USER_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
+   * Creates a new key for a user.
+   */
+  async createUserKey(params: CreateUserKeyPathParams, body: UserKeyQuery): Promise<ApiKeyResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['user_id', String(params.user_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyResponse>(CREATE_USER_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -206,6 +228,18 @@ export class IamServiceClient {
   }
 
   /**
+   * Deletes a service account key.
+   */
+  async deleteServiceAccountKey(params: DeleteServiceAccountKeyPathParams, body: ServiceAccountQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['service_account_id', String(params.service_account_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(DELETE_SERVICE_ACCOUNT_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
    * Deletes a user.
    */
   async deleteUser(params: DeleteUserPathParams): Promise<UserResponse> {
@@ -213,6 +247,18 @@ export class IamServiceClient {
       ['user_id', String(params.user_id)]
     ];
     const result = await this.inner.invoke<UserResponse>(DELETE_USER_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  /**
+   * Deletes a user key.
+   */
+  async deleteUserKey(params: DeleteUserKeyPathParams, body: UserKeyQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['user_id', String(params.user_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(DELETE_USER_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -245,6 +291,18 @@ export class IamServiceClient {
   }
 
   /**
+   * Disables a service account key.
+   */
+  async disableServiceAccountKey(params: DisableServiceAccountKeyPathParams, body: ServiceAccountQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['service_account_id', String(params.service_account_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(DISABLE_SERVICE_ACCOUNT_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
    * Disables a user login.
    */
   async disableUser(params: DisableUserPathParams): Promise<UserResponse> {
@@ -252,6 +310,18 @@ export class IamServiceClient {
       ['user_id', String(params.user_id)]
     ];
     const result = await this.inner.invoke<UserResponse>(DISABLE_USER_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  /**
+   * Disables a user key.
+   */
+  async disableUserKey(params: DisableUserKeyPathParams, body: UserKeyQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['user_id', String(params.user_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(DISABLE_USER_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -265,6 +335,18 @@ export class IamServiceClient {
   }
 
   /**
+   * Enables a service account key.
+   */
+  async enableServiceAccountKey(params: EnableServiceAccountKeyPathParams, body: ServiceAccountQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['service_account_id', String(params.service_account_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(ENABLE_SERVICE_ACCOUNT_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
    * Enables a user login.
    */
   async enableUser(params: EnableUserPathParams): Promise<UserResponse> {
@@ -272,6 +354,18 @@ export class IamServiceClient {
       ['user_id', String(params.user_id)]
     ];
     const result = await this.inner.invoke<UserResponse>(ENABLE_USER_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  /**
+   * Enables a user key.
+   */
+  async enableUserKey(params: EnableUserKeyPathParams, body: UserKeyQuery): Promise<ApiKeyMetadata> {
+    const pathParams: Array<[string, string]> = [
+      ['user_id', String(params.user_id)],
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyMetadata>(ENABLE_USER_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -508,6 +602,17 @@ export class IamServiceClient {
   }
 
   /**
+   * Lists keys for a service account.
+   */
+  async listServiceAccountKeys(params: ListServiceAccountKeysPathParams, body: ServiceAccountQuery): Promise<ApiKeyListResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['service_account_id', String(params.service_account_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyListResponse>(LIST_SERVICE_ACCOUNT_KEYS_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
    * Lists service accounts for the current account.
    */
   async listServiceAccounts(body: ServiceAccountQuery): Promise<ServiceAccountListResponse> {
@@ -531,6 +636,17 @@ export class IamServiceClient {
   async listTenants(): Promise<TenantListResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<TenantListResponse>(LIST_TENANTS_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  /**
+   * Lists keys for a user.
+   */
+  async listUserKeys(params: ListUserKeysPathParams, body: UserKeyQuery): Promise<ApiKeyListResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['user_id', String(params.user_id)]
+    ];
+    const result = await this.inner.invoke<ApiKeyListResponse>(LIST_USER_KEYS_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -625,17 +741,6 @@ export class IamServiceClient {
       ['session_id', String(params.session_id)]
     ];
     const result = await this.inner.invoke<UserSessionResponse>(REVOKE_USER_SESSION_SPEC, pathParams, undefined);
-    return result.body;
-  }
-
-  /**
-   * Rotates a service account key.
-   */
-  async rotateServiceAccountKey(params: RotateServiceAccountKeyPathParams, body: ServiceAccountQuery): Promise<ServiceAccountKeyResponse> {
-    const pathParams: Array<[string, string]> = [
-      ['service_account_id', String(params.service_account_id)]
-    ];
-    const result = await this.inner.invoke<ServiceAccountKeyResponse>(ROTATE_SERVICE_ACCOUNT_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -763,6 +868,10 @@ export interface AttachPolicyToPrincipalPathParams {
   id: string;
 }
 
+export interface CreateServiceAccountKeyPathParams {
+  service_account_id: string;
+}
+
 export interface CreateSigningKeyPathParams {
   tenant: string;
 }
@@ -773,6 +882,10 @@ export interface CreateTenantGroupPathParams {
 
 export interface CreateTenantUserPathParams {
   tenant: string;
+}
+
+export interface CreateUserKeyPathParams {
+  user_id: string;
 }
 
 export interface DeleteGroupPathParams {
@@ -796,8 +909,18 @@ export interface DeleteServiceAccountPathParams {
   service_account_id: string;
 }
 
+export interface DeleteServiceAccountKeyPathParams {
+  service_account_id: string;
+  key_id: string;
+}
+
 export interface DeleteUserPathParams {
   user_id: string;
+}
+
+export interface DeleteUserKeyPathParams {
+  user_id: string;
+  key_id: string;
 }
 
 export interface DetachManagedPolicyPathParams {
@@ -814,12 +937,32 @@ export interface DetachPolicyFromPrincipalPathParams {
   policy_id: string;
 }
 
+export interface DisableServiceAccountKeyPathParams {
+  service_account_id: string;
+  key_id: string;
+}
+
 export interface DisableUserPathParams {
   user_id: string;
 }
 
+export interface DisableUserKeyPathParams {
+  user_id: string;
+  key_id: string;
+}
+
+export interface EnableServiceAccountKeyPathParams {
+  service_account_id: string;
+  key_id: string;
+}
+
 export interface EnableUserPathParams {
   user_id: string;
+}
+
+export interface EnableUserKeyPathParams {
+  user_id: string;
+  key_id: string;
 }
 
 export interface GetAuditEventPathParams {
@@ -884,6 +1027,14 @@ export interface ListPrincipalManagedPoliciesPathParams {
   id: string;
 }
 
+export interface ListServiceAccountKeysPathParams {
+  service_account_id: string;
+}
+
+export interface ListUserKeysPathParams {
+  user_id: string;
+}
+
 export interface ListUserSessionsPathParams {
   user_id: string;
 }
@@ -905,10 +1056,6 @@ export interface RevokeServiceAccountTokenPathParams {
 export interface RevokeUserSessionPathParams {
   user_id: string;
   session_id: string;
-}
-
-export interface RotateServiceAccountKeyPathParams {
-  service_account_id: string;
 }
 
 export interface SetUserMfaRequirementPathParams {
@@ -1059,6 +1206,17 @@ const CREATE_SERVICE_ACCOUNT_SPEC: OperationSpec = {
   lro: false
 };
 
+const CREATE_SERVICE_ACCOUNT_KEY_SPEC: OperationSpec = {
+  name: 'CreateServiceAccountKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/service-accounts/{service_account_id}/keys',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const CREATE_SIGNING_KEY_SPEC: OperationSpec = {
   name: 'CreateSigningKey',
   method: SdkHttpMethod.Post,
@@ -1088,6 +1246,17 @@ const CREATE_TENANT_USER_SPEC: OperationSpec = {
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const CREATE_USER_KEY_SPEC: OperationSpec = {
+  name: 'CreateUserKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/users/{user_id}/keys',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
   pagination: undefined,
   lro: false
 };
@@ -1147,10 +1316,32 @@ const DELETE_SERVICE_ACCOUNT_SPEC: OperationSpec = {
   lro: false
 };
 
+const DELETE_SERVICE_ACCOUNT_KEY_SPEC: OperationSpec = {
+  name: 'DeleteServiceAccountKey',
+  method: SdkHttpMethod.Delete,
+  uri: '/iam/service-accounts/{service_account_id}/keys/{key_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const DELETE_USER_SPEC: OperationSpec = {
   name: 'DeleteUser',
   method: SdkHttpMethod.Delete,
   uri: '/iam/users/{user_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DELETE_USER_KEY_SPEC: OperationSpec = {
+  name: 'DeleteUserKey',
+  method: SdkHttpMethod.Delete,
+  uri: '/iam/users/{user_id}/keys/{key_id}',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -1180,10 +1371,32 @@ const DETACH_POLICY_FROM_PRINCIPAL_SPEC: OperationSpec = {
   lro: false
 };
 
+const DISABLE_SERVICE_ACCOUNT_KEY_SPEC: OperationSpec = {
+  name: 'DisableServiceAccountKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/service-accounts/{service_account_id}/keys/{key_id}/disable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const DISABLE_USER_SPEC: OperationSpec = {
   name: 'DisableUser',
   method: SdkHttpMethod.Post,
   uri: '/iam/users/{user_id}/disable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DISABLE_USER_KEY_SPEC: OperationSpec = {
+  name: 'DisableUserKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/users/{user_id}/keys/{key_id}/disable',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -1202,10 +1415,32 @@ const EMIT_TOKEN_SPEC: OperationSpec = {
   lro: false
 };
 
+const ENABLE_SERVICE_ACCOUNT_KEY_SPEC: OperationSpec = {
+  name: 'EnableServiceAccountKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/service-accounts/{service_account_id}/keys/{key_id}/enable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const ENABLE_USER_SPEC: OperationSpec = {
   name: 'EnableUser',
   method: SdkHttpMethod.Post,
   uri: '/iam/users/{user_id}/enable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const ENABLE_USER_KEY_SPEC: OperationSpec = {
+  name: 'EnableUserKey',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/users/{user_id}/keys/{key_id}/enable',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -1455,6 +1690,17 @@ const LIST_ROLES_SPEC: OperationSpec = {
   lro: false
 };
 
+const LIST_SERVICE_ACCOUNT_KEYS_SPEC: OperationSpec = {
+  name: 'ListServiceAccountKeys',
+  method: SdkHttpMethod.Get,
+  uri: '/iam/service-accounts/{service_account_id}/keys',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const LIST_SERVICE_ACCOUNTS_SPEC: OperationSpec = {
   name: 'ListServiceAccounts',
   method: SdkHttpMethod.Get,
@@ -1481,6 +1727,17 @@ const LIST_TENANTS_SPEC: OperationSpec = {
   name: 'ListTenants',
   method: SdkHttpMethod.Get,
   uri: '/iam/tenants',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const LIST_USER_KEYS_SPEC: OperationSpec = {
+  name: 'ListUserKeys',
+  method: SdkHttpMethod.Get,
+  uri: '/iam/users/{user_id}/keys',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -1580,17 +1837,6 @@ const REVOKE_USER_SESSION_SPEC: OperationSpec = {
   name: 'RevokeUserSession',
   method: SdkHttpMethod.Delete,
   uri: '/iam/users/{user_id}/sessions/{session_id}',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: false,
-  pagination: undefined,
-  lro: false
-};
-
-const ROTATE_SERVICE_ACCOUNT_KEY_SPEC: OperationSpec = {
-  name: 'RotateServiceAccountKey',
-  method: SdkHttpMethod.Post,
-  uri: '/iam/service-accounts/{service_account_id}/keys/rotate',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
