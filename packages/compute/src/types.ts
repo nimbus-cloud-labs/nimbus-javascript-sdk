@@ -1,5 +1,11 @@
 // Generated types – do not edit.
 export type JsonValue = Record<string, unknown>;
+export type BootDecision = Record<string, unknown>;
+export type BootLookupPayload = Record<string, unknown>;
+export type BootLookupResponse = Record<string, unknown>;
+export type BootRegistryEntry = Record<string, unknown>;
+export type BootRegistryStatus = Record<string, unknown>;
+export type BootRegistryUpsertPayload = Record<string, unknown>;
 export type BootstrapCredentialsBody = Record<string, unknown>;
 export type BootstrapCredentialsResponse = Record<string, unknown>;
 export type CreateNetworkPayload = Record<string, unknown>;

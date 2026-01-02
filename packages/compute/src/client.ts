@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationHandle, OperationSpec, Paginator, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { BootstrapCredentialsBody, BootstrapCredentialsResponse, CreateNetworkPayload, CreateNicPayload, CreateVmPayload, FailPayload, HeartbeatPayload, HostJobResponse, HostShutdownResponse, IdempotencyListResponse, InterfacePayload, JsonValue, RotateAgentCredentialsRequest, SwitchPayload, UpdateNetworkPayload, VmMigrationRequestPayload } from './types';
+import type { BootLookupPayload, BootLookupResponse, BootRegistryEntry, BootRegistryUpsertPayload, BootstrapCredentialsBody, BootstrapCredentialsResponse, CreateNetworkPayload, CreateNicPayload, CreateVmPayload, FailPayload, HeartbeatPayload, HostJobResponse, HostShutdownResponse, IdempotencyListResponse, InterfacePayload, JsonValue, RotateAgentCredentialsRequest, SwitchPayload, UpdateNetworkPayload, VmMigrationRequestPayload } from './types';
 
 export class ComputeServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -179,6 +179,12 @@ export class ComputeServiceClient {
     return this.inner.paginator<JsonValue>(LIST_NICS_SPEC, pathParams);
   }
 
+  async lookupPxeBoot(body: BootLookupPayload): Promise<BootLookupResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<BootLookupResponse>(LOOKUP_PXE_BOOT_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async migrateVm(params: MigrateVmPathParams, body: VmMigrationRequestPayload): Promise<OperationHandle> {
     const pathParams: Array<[string, string]> = [
       ['id', String(params.id)]
@@ -255,6 +261,14 @@ export class ComputeServiceClient {
     return this.inner.waiter().wait(handle);
   }
 
+  async upsertBootRegistryEntry(params: UpsertBootRegistryEntryPathParams, body: BootRegistryUpsertPayload): Promise<BootRegistryEntry> {
+    const pathParams: Array<[string, string]> = [
+      ['mac', String(params.mac)]
+    ];
+    const result = await this.inner.invoke<BootRegistryEntry>(UPSERT_BOOT_REGISTRY_ENTRY_SPEC, pathParams, body);
+    return result.body;
+  }
+
 }
 
 export interface AttachInterfacePathParams {
@@ -318,6 +332,10 @@ export interface StopVmPathParams {
 
 export interface UpdateNetworkPathParams {
   network_id: string;
+}
+
+export interface UpsertBootRegistryEntryPathParams {
+  mac: string;
 }
 
 const ATTACH_INTERFACE_SPEC: OperationSpec = {
@@ -519,6 +537,17 @@ const LIST_NICS_SPEC: OperationSpec = {
   lro: false
 };
 
+const LOOKUP_PXE_BOOT_SPEC: OperationSpec = {
+  name: 'LookupPxeBoot',
+  method: SdkHttpMethod.Post,
+  uri: '/internal/boot/pxe/lookup',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const MIGRATE_VM_SPEC: OperationSpec = {
   name: 'MigrateVm',
   method: SdkHttpMethod.Post,
@@ -594,4 +623,15 @@ const UPDATE_NETWORK_SPEC: OperationSpec = {
   idempotent: true,
   pagination: undefined,
   lro: true
+};
+
+const UPSERT_BOOT_REGISTRY_ENTRY_SPEC: OperationSpec = {
+  name: 'UpsertBootRegistryEntry',
+  method: SdkHttpMethod.Put,
+  uri: '/internal/boot/registry/{mac}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
 };
