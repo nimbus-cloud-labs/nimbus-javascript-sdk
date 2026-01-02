@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateCollectionRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -39,6 +39,12 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async createPipeline(body: CreatePipelineRequest): Promise<PipelineRecordResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<PipelineRecordResponse>(CREATE_PIPELINE_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async createSmartAlbum(body: CreateSmartAlbumRequest): Promise<SmartAlbumResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<SmartAlbumResponse>(CREATE_SMART_ALBUM_SPEC, pathParams, body);
@@ -50,6 +56,14 @@ export class DamManagementServiceClient {
       ['collection_id', String(params.collection_id)]
     ];
     const result = await this.inner.invoke<JsonValue>(DELETE_COLLECTION_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async deletePipeline(params: DeletePipelinePathParams): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['pipeline_id', String(params.pipeline_id)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(DELETE_PIPELINE_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -80,6 +94,12 @@ export class DamManagementServiceClient {
   async listCollections(): Promise<CollectionListResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<CollectionListResponse>(LIST_COLLECTIONS_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async listPipelines(): Promise<PipelineListResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<PipelineListResponse>(LIST_PIPELINES_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -156,6 +176,14 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async updatePipeline(params: UpdatePipelinePathParams, body: UpdatePipelineRequest): Promise<PipelineRecordResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['pipeline_id', String(params.pipeline_id)]
+    ];
+    const result = await this.inner.invoke<PipelineRecordResponse>(UPDATE_PIPELINE_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async updateSmartAlbum(params: UpdateSmartAlbumPathParams, body: UpdateSmartAlbumRequest): Promise<SmartAlbumResponse> {
     const pathParams: Array<[string, string]> = [
       ['album_id', String(params.album_id)]
@@ -172,6 +200,10 @@ export interface ArchiveAssetPathParams {
 
 export interface DeleteCollectionPathParams {
   collection_id: string;
+}
+
+export interface DeletePipelinePathParams {
+  pipeline_id: string;
 }
 
 export interface DeleteSmartAlbumPathParams {
@@ -209,6 +241,10 @@ export interface RestoreAssetPathParams {
 
 export interface UpdateCollectionPathParams {
   collection_id: string;
+}
+
+export interface UpdatePipelinePathParams {
+  pipeline_id: string;
 }
 
 export interface UpdateSmartAlbumPathParams {
@@ -259,6 +295,17 @@ const CREATE_COLLECTION_SPEC: OperationSpec = {
   lro: false
 };
 
+const CREATE_PIPELINE_SPEC: OperationSpec = {
+  name: 'CreatePipeline',
+  method: SdkHttpMethod.Post,
+  uri: '/pipelines',
+  successCode: 201,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const CREATE_SMART_ALBUM_SPEC: OperationSpec = {
   name: 'CreateSmartAlbum',
   method: SdkHttpMethod.Post,
@@ -274,6 +321,17 @@ const DELETE_COLLECTION_SPEC: OperationSpec = {
   name: 'DeleteCollection',
   method: SdkHttpMethod.Delete,
   uri: '/collections/{collection_id}',
+  successCode: 204,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DELETE_PIPELINE_SPEC: OperationSpec = {
+  name: 'DeletePipeline',
+  method: SdkHttpMethod.Delete,
+  uri: '/pipelines/{pipeline_id}',
   successCode: 204,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -318,6 +376,17 @@ const LIST_COLLECTIONS_SPEC: OperationSpec = {
   name: 'ListCollections',
   method: SdkHttpMethod.Get,
   uri: '/collections',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const LIST_PIPELINES_SPEC: OperationSpec = {
+  name: 'ListPipelines',
+  method: SdkHttpMethod.Get,
+  uri: '/pipelines',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -428,6 +497,17 @@ const UPDATE_COLLECTION_SPEC: OperationSpec = {
   name: 'UpdateCollection',
   method: SdkHttpMethod.Post,
   uri: '/collections/{collection_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const UPDATE_PIPELINE_SPEC: OperationSpec = {
+  name: 'UpdatePipeline',
+  method: SdkHttpMethod.Post,
+  uri: '/pipelines/{pipeline_id}',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
