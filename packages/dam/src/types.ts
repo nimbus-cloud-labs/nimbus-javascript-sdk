@@ -1,7 +1,14 @@
 // Generated types – do not edit.
 export type JsonValue = Record<string, unknown>;
+export type AssetDetailResponse = Record<string, unknown>;
+export type AssetDownloadResponse = Record<string, unknown>;
 export type AssetFilterPayload = Record<string, unknown>;
 export type AssetFilterPayloadPathList = Record<string, unknown>;
+export type AssetPrefixListResponse = Record<string, unknown>;
+export type AssetPrefixListResponseItemsList = Record<string, unknown>;
+export type AssetPrefixRecord = Record<string, unknown>;
+export type AssetPrefixResponse = Record<string, unknown>;
+export type AssetRecord = Record<string, unknown>;
 export type AssetSearchItem = Record<string, unknown>;
 export type AssetSearchRequest = Record<string, unknown>;
 export type AssetSearchRequestFiltersList = Record<string, unknown>;
@@ -19,6 +26,7 @@ export type CollectionMembershipRequest = Record<string, unknown>;
 export type CollectionMembershipResponse = Record<string, unknown>;
 export type CollectionResponse = Record<string, unknown>;
 export type CompleteIngestionRequest = Record<string, unknown>;
+export type CreateAssetPrefixRequest = Record<string, unknown>;
 export type CreateCollectionRequest = Record<string, unknown>;
 export type CreatePipelineRequest = Record<string, unknown>;
 export type CreatePipelineRequestRenditionsList = Record<string, unknown>;

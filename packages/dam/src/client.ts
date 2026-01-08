@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -33,6 +33,20 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async createAssetDownload(params: CreateAssetDownloadPathParams): Promise<AssetDownloadResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)]
+    ];
+    const result = await this.inner.invoke<AssetDownloadResponse>(CREATE_ASSET_DOWNLOAD_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async createAssetPrefix(body: CreateAssetPrefixRequest): Promise<AssetPrefixResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<AssetPrefixResponse>(CREATE_ASSET_PREFIX_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async createCollection(body: CreateCollectionRequest): Promise<CollectionResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<CollectionResponse>(CREATE_COLLECTION_SPEC, pathParams, body);
@@ -48,6 +62,14 @@ export class DamManagementServiceClient {
   async createSmartAlbum(body: CreateSmartAlbumRequest): Promise<SmartAlbumResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<SmartAlbumResponse>(CREATE_SMART_ALBUM_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async deleteAssetPrefix(params: DeleteAssetPrefixPathParams): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['prefix_id', String(params.prefix_id)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(DELETE_ASSET_PREFIX_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -75,11 +97,25 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async getAsset(params: GetAssetPathParams): Promise<AssetDetailResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)]
+    ];
+    const result = await this.inner.invoke<AssetDetailResponse>(GET_ASSET_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
   async getOperation(params: GetOperationPathParams): Promise<OperationResponse> {
     const pathParams: Array<[string, string]> = [
       ['operation_id', String(params.operation_id)]
     ];
     const result = await this.inner.invoke<OperationResponse>(GET_OPERATION_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async listAssetPrefixes(): Promise<AssetPrefixListResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<AssetPrefixListResponse>(LIST_ASSET_PREFIXES_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -156,6 +192,14 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async retryOperation(params: RetryOperationPathParams): Promise<OperationResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['operation_id', String(params.operation_id)]
+    ];
+    const result = await this.inner.invoke<OperationResponse>(RETRY_OPERATION_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
   async searchAssets(body: AssetSearchRequest): Promise<AssetSearchResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<AssetSearchResponse>(SEARCH_ASSETS_SPEC, pathParams, body);
@@ -198,6 +242,14 @@ export interface ArchiveAssetPathParams {
   asset_id: string;
 }
 
+export interface CreateAssetDownloadPathParams {
+  asset_id: string;
+}
+
+export interface DeleteAssetPrefixPathParams {
+  prefix_id: string;
+}
+
 export interface DeleteCollectionPathParams {
   collection_id: string;
 }
@@ -208,6 +260,10 @@ export interface DeletePipelinePathParams {
 
 export interface DeleteSmartAlbumPathParams {
   album_id: string;
+}
+
+export interface GetAssetPathParams {
+  asset_id: string;
 }
 
 export interface GetOperationPathParams {
@@ -237,6 +293,10 @@ export interface RemoveCollectionMembershipPathParams {
 
 export interface RestoreAssetPathParams {
   asset_id: string;
+}
+
+export interface RetryOperationPathParams {
+  operation_id: string;
 }
 
 export interface UpdateCollectionPathParams {
@@ -284,6 +344,28 @@ const COMPLETE_ASSET_INGESTION_SPEC: OperationSpec = {
   lro: false
 };
 
+const CREATE_ASSET_DOWNLOAD_SPEC: OperationSpec = {
+  name: 'CreateAssetDownload',
+  method: SdkHttpMethod.Post,
+  uri: '/assets/{asset_id}/download',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const CREATE_ASSET_PREFIX_SPEC: OperationSpec = {
+  name: 'CreateAssetPrefix',
+  method: SdkHttpMethod.Post,
+  uri: '/assets/prefixes',
+  successCode: 201,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const CREATE_COLLECTION_SPEC: OperationSpec = {
   name: 'CreateCollection',
   method: SdkHttpMethod.Post,
@@ -311,6 +393,17 @@ const CREATE_SMART_ALBUM_SPEC: OperationSpec = {
   method: SdkHttpMethod.Post,
   uri: '/albums',
   successCode: 201,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DELETE_ASSET_PREFIX_SPEC: OperationSpec = {
+  name: 'DeleteAssetPrefix',
+  method: SdkHttpMethod.Delete,
+  uri: '/assets/prefixes/{prefix_id}',
+  successCode: 204,
   additionalSuccessResponses: [],
   idempotent: false,
   pagination: undefined,
@@ -350,10 +443,32 @@ const DELETE_SMART_ALBUM_SPEC: OperationSpec = {
   lro: false
 };
 
+const GET_ASSET_SPEC: OperationSpec = {
+  name: 'GetAsset',
+  method: SdkHttpMethod.Get,
+  uri: '/assets/{asset_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const GET_OPERATION_SPEC: OperationSpec = {
   name: 'GetOperation',
   method: SdkHttpMethod.Get,
   uri: '/operations/{operation_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const LIST_ASSET_PREFIXES_SPEC: OperationSpec = {
+  name: 'ListAssetPrefixes',
+  method: SdkHttpMethod.Get,
+  uri: '/assets/prefixes',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -465,6 +580,17 @@ const RESTORE_ASSET_SPEC: OperationSpec = {
   method: SdkHttpMethod.Post,
   uri: '/assets/{asset_id}/restore',
   successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const RETRY_OPERATION_SPEC: OperationSpec = {
+  name: 'RetryOperation',
+  method: SdkHttpMethod.Post,
+  uri: '/operations/{operation_id}/retry',
+  successCode: 202,
   additionalSuccessResponses: [],
   idempotent: false,
   pagination: undefined,
