@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -47,6 +47,15 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async createAssetRenditionDownload(params: CreateAssetRenditionDownloadPathParams): Promise<AssetDownloadResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)],
+      ['rendition_id', String(params.rendition_id)]
+    ];
+    const result = await this.inner.invoke<AssetDownloadResponse>(CREATE_ASSET_RENDITION_DOWNLOAD_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
   async createCollection(body: CreateCollectionRequest): Promise<CollectionResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<CollectionResponse>(CREATE_COLLECTION_SPEC, pathParams, body);
@@ -62,6 +71,14 @@ export class DamManagementServiceClient {
   async createSmartAlbum(body: CreateSmartAlbumRequest): Promise<SmartAlbumResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<SmartAlbumResponse>(CREATE_SMART_ALBUM_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async deleteAsset(params: DeleteAssetPathParams): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(DELETE_ASSET_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -105,6 +122,15 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async getAssetRendition(params: GetAssetRenditionPathParams): Promise<AssetRenditionRecord> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)],
+      ['rendition_id', String(params.rendition_id)]
+    ];
+    const result = await this.inner.invoke<AssetRenditionRecord>(GET_ASSET_RENDITION_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
   async getOperation(params: GetOperationPathParams): Promise<OperationResponse> {
     const pathParams: Array<[string, string]> = [
       ['operation_id', String(params.operation_id)]
@@ -116,6 +142,14 @@ export class DamManagementServiceClient {
   async listAssetPrefixes(): Promise<AssetPrefixListResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<AssetPrefixListResponse>(LIST_ASSET_PREFIXES_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async listAssetRenditions(params: ListAssetRenditionsPathParams): Promise<AssetRenditionListResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)]
+    ];
+    const result = await this.inner.invoke<AssetRenditionListResponse>(LIST_ASSET_RENDITIONS_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -246,6 +280,15 @@ export interface CreateAssetDownloadPathParams {
   asset_id: string;
 }
 
+export interface CreateAssetRenditionDownloadPathParams {
+  asset_id: string;
+  rendition_id: string;
+}
+
+export interface DeleteAssetPathParams {
+  asset_id: string;
+}
+
 export interface DeleteAssetPrefixPathParams {
   prefix_id: string;
 }
@@ -266,8 +309,17 @@ export interface GetAssetPathParams {
   asset_id: string;
 }
 
+export interface GetAssetRenditionPathParams {
+  asset_id: string;
+  rendition_id: string;
+}
+
 export interface GetOperationPathParams {
   operation_id: string;
+}
+
+export interface ListAssetRenditionsPathParams {
+  asset_id: string;
 }
 
 export interface ListCollectionMembershipsPathParams {
@@ -366,6 +418,17 @@ const CREATE_ASSET_PREFIX_SPEC: OperationSpec = {
   lro: false
 };
 
+const CREATE_ASSET_RENDITION_DOWNLOAD_SPEC: OperationSpec = {
+  name: 'CreateAssetRenditionDownload',
+  method: SdkHttpMethod.Post,
+  uri: '/assets/{asset_id}/renditions/{rendition_id}/download',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const CREATE_COLLECTION_SPEC: OperationSpec = {
   name: 'CreateCollection',
   method: SdkHttpMethod.Post,
@@ -393,6 +456,17 @@ const CREATE_SMART_ALBUM_SPEC: OperationSpec = {
   method: SdkHttpMethod.Post,
   uri: '/albums',
   successCode: 201,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DELETE_ASSET_SPEC: OperationSpec = {
+  name: 'DeleteAsset',
+  method: SdkHttpMethod.Delete,
+  uri: '/assets/{asset_id}',
+  successCode: 204,
   additionalSuccessResponses: [],
   idempotent: false,
   pagination: undefined,
@@ -454,6 +528,17 @@ const GET_ASSET_SPEC: OperationSpec = {
   lro: false
 };
 
+const GET_ASSET_RENDITION_SPEC: OperationSpec = {
+  name: 'GetAssetRendition',
+  method: SdkHttpMethod.Get,
+  uri: '/assets/{asset_id}/renditions/{rendition_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const GET_OPERATION_SPEC: OperationSpec = {
   name: 'GetOperation',
   method: SdkHttpMethod.Get,
@@ -469,6 +554,17 @@ const LIST_ASSET_PREFIXES_SPEC: OperationSpec = {
   name: 'ListAssetPrefixes',
   method: SdkHttpMethod.Get,
   uri: '/assets/prefixes',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const LIST_ASSET_RENDITIONS_SPEC: OperationSpec = {
+  name: 'ListAssetRenditions',
+  method: SdkHttpMethod.Get,
+  uri: '/assets/{asset_id}/renditions',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
