@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -246,6 +246,23 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async updateAssetCustomMetadata(params: UpdateAssetCustomMetadataPathParams, body: CustomMetadataRequest): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(UPDATE_ASSET_CUSTOM_METADATA_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async updateAssetVersionCustomMetadata(params: UpdateAssetVersionCustomMetadataPathParams, body: CustomMetadataRequest): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)],
+      ['version_id', String(params.version_id)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(UPDATE_ASSET_VERSION_CUSTOM_METADATA_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async updateCollection(params: UpdateCollectionPathParams, body: UpdateCollectionRequest): Promise<CollectionResponse> {
     const pathParams: Array<[string, string]> = [
       ['collection_id', String(params.collection_id)]
@@ -349,6 +366,15 @@ export interface RestoreAssetPathParams {
 
 export interface RetryOperationPathParams {
   operation_id: string;
+}
+
+export interface UpdateAssetCustomMetadataPathParams {
+  asset_id: string;
+}
+
+export interface UpdateAssetVersionCustomMetadataPathParams {
+  asset_id: string;
+  version_id: string;
 }
 
 export interface UpdateCollectionPathParams {
@@ -709,6 +735,28 @@ const SEARCH_ASSETS_WITH_BODY_SPEC: OperationSpec = {
   method: SdkHttpMethod.Post,
   uri: '/assets/search',
   successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const UPDATE_ASSET_CUSTOM_METADATA_SPEC: OperationSpec = {
+  name: 'UpdateAssetCustomMetadata',
+  method: SdkHttpMethod.Post,
+  uri: '/assets/{asset_id}/metadata/custom',
+  successCode: 204,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const UPDATE_ASSET_VERSION_CUSTOM_METADATA_SPEC: OperationSpec = {
+  name: 'UpdateAssetVersionCustomMetadata',
+  method: SdkHttpMethod.Post,
+  uri: '/assets/{asset_id}/versions/{version_id}/metadata/custom',
+  successCode: 204,
   additionalSuccessResponses: [],
   idempotent: false,
   pagination: undefined,

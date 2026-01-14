@@ -36,6 +36,7 @@ export type CreatePipelineRequestRenditionsList = Record<string, unknown>;
 export type CreatePipelineRequestRulesList = Record<string, unknown>;
 export type CreateSmartAlbumRequest = Record<string, unknown>;
 export type CreateSmartAlbumRequestRulesList = Record<string, unknown>;
+export type CustomMetadataRequest = Record<string, unknown>;
 export type IndexSnapshotRequest = Record<string, unknown>;
 export type IndexSnapshotResponse = Record<string, unknown>;
 export type IngestionRequest = Record<string, unknown>;
