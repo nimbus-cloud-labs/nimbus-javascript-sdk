@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, AssetVersionMetadataResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -128,6 +128,15 @@ export class DamManagementServiceClient {
       ['rendition_id', String(params.rendition_id)]
     ];
     const result = await this.inner.invoke<AssetRenditionRecord>(GET_ASSET_RENDITION_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async getAssetVersionMetadata(params: GetAssetVersionMetadataPathParams): Promise<AssetVersionMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['asset_id', String(params.asset_id)],
+      ['version_id', String(params.version_id)]
+    ];
+    const result = await this.inner.invoke<AssetVersionMetadataResponse>(GET_ASSET_VERSION_METADATA_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -329,6 +338,11 @@ export interface GetAssetPathParams {
 export interface GetAssetRenditionPathParams {
   asset_id: string;
   rendition_id: string;
+}
+
+export interface GetAssetVersionMetadataPathParams {
+  asset_id: string;
+  version_id: string;
 }
 
 export interface GetOperationPathParams {
@@ -558,6 +572,17 @@ const GET_ASSET_RENDITION_SPEC: OperationSpec = {
   name: 'GetAssetRendition',
   method: SdkHttpMethod.Get,
   uri: '/assets/{asset_id}/renditions/{rendition_id}',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const GET_ASSET_VERSION_METADATA_SPEC: OperationSpec = {
+  name: 'GetAssetVersionMetadata',
+  method: SdkHttpMethod.Get,
+  uri: '/assets/{asset_id}/versions/{version_id}/metadata',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
