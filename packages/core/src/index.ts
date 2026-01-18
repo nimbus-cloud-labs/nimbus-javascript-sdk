@@ -1,5 +1,6 @@
 export * from './auth';
 export * from './credentials/environment';
+export * from './credentials/static';
 export * from './client';
 export * from './errors';
 export * from './idempotency';

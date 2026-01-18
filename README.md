@@ -48,6 +48,23 @@ which keeps the generated code portable across runtimes. The SDK packages do not
 dedicated `"browser"` entry today because every bundle is already universal; add one only if
 future Node-only optimizations require separate files.
 
+## Static access keys
+Applications can supply access key credentials directly, bypassing environment loading:
+
+```ts
+import { NimbusClient, StaticKeyCredentialProvider } from '@nimbus-cloud/sdk-core';
+
+const config = NimbusClient.builder()
+  .endpoint('https://api.nimbus.eu')
+  .withAuth(
+    new StaticKeyCredentialProvider({
+      accessKey: 'ZZYX1EXAMPLEKEY00001',
+      secretKey: 'Zm9vYmFyLXNlY3JldC1leGFtcGxlLXN0cmluZw=='
+    })
+  )
+  .build();
+```
+
 ## Instance metadata credentials
 
 Code deployed on Nimbus compute instances should call the metadata service
