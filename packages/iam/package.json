@@ -23,7 +23,7 @@
     "iam"
   ],
   "publishConfig": {
-    "registry": "https://npm.registry.nimbus.eu",
+    "registry": "https://npm.registry.nimbuscloudplatform.com",
     "access": "restricted"
   },
   "dependencies": {

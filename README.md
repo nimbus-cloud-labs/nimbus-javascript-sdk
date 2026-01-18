@@ -15,7 +15,7 @@ import { NimbusClient, StaticTokenProvider } from '@nimbus-cloud/sdk-core';
 import { IamServiceClient } from '@nimbus-cloud/iam-client';
 
 const config = NimbusClient.builder()
-  .endpoint('https://api.nimbus.eu')
+  .endpoint('https://api.nimbuscloudplatform.com')
   .withAuth(new StaticTokenProvider('token'))
   .build();
 
@@ -36,7 +36,7 @@ console.log(result.token);
 import { NimbusClient, StaticKeyCredentialProvider } from '@nimbus-cloud/sdk-core';
 
 const config = NimbusClient.builder()
-  .endpoint('https://api.nimbus.eu')
+  .endpoint('https://api.nimbuscloudplatform.com')
   .withAuth(
     new StaticKeyCredentialProvider({
       accessKey: 'ZZYX1EXAMPLEKEY00001',
