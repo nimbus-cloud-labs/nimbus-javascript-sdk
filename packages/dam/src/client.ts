@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, AssetVersionMetadataResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, AssetVersionMetadataResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, PipelineRerunRequest, PipelineRerunResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -224,6 +224,12 @@ export class DamManagementServiceClient {
       ['asset_id', String(params.asset_id)]
     ];
     const result = await this.inner.invoke<JsonValue>(REMOVE_COLLECTION_MEMBERSHIP_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async rerunPipelines(body: PipelineRerunRequest): Promise<PipelineRerunResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<PipelineRerunResponse>(RERUN_PIPELINES_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -716,6 +722,17 @@ const REMOVE_COLLECTION_MEMBERSHIP_SPEC: OperationSpec = {
   method: SdkHttpMethod.Delete,
   uri: '/collections/{collection_id}/memberships/{asset_id}',
   successCode: 204,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const RERUN_PIPELINES_SPEC: OperationSpec = {
+  name: 'RerunPipelines',
+  method: SdkHttpMethod.Post,
+  uri: '/pipelines/rerun',
+  successCode: 202,
   additionalSuccessResponses: [],
   idempotent: false,
   pagination: undefined,
