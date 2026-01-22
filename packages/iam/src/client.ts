@@ -29,7 +29,7 @@ export class IamServiceClient {
    */
   async addUserToGroup(params: AddUserToGroupPathParams, body: GroupMembershipPayload): Promise<GroupMembershipDto> {
     const pathParams: Array<[string, string]> = [
-      ['tenant', String(params.tenant)],
+      ['account_id', String(params.account_id)],
       ['group_id', String(params.group_id)]
     ];
     const result = await this.inner.invoke<GroupMembershipDto>(ADD_USER_TO_GROUP_SPEC, pathParams, body);
@@ -68,6 +68,28 @@ export class IamServiceClient {
       ['id', String(params.id)]
     ];
     const result = await this.inner.invoke<Principal>(ATTACH_POLICY_TO_PRINCIPAL_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
+   * Creates a group for an account.
+   */
+  async createAccountGroup(params: CreateAccountGroupPathParams, body: GroupPayload): Promise<GroupDto> {
+    const pathParams: Array<[string, string]> = [
+      ['account_id', String(params.account_id)]
+    ];
+    const result = await this.inner.invoke<GroupDto>(CREATE_ACCOUNT_GROUP_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
+   * Creates a user within an account.
+   */
+  async createAccountUser(params: CreateAccountUserPathParams, body: UserPayload): Promise<UserProvisioningResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['account_id', String(params.account_id)]
+    ];
+    const result = await this.inner.invoke<UserProvisioningResponse>(CREATE_ACCOUNT_USER_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -135,28 +157,6 @@ export class IamServiceClient {
       ['tenant', String(params.tenant)]
     ];
     const result = await this.inner.invoke<SigningKeyResponse>(CREATE_SIGNING_KEY_SPEC, pathParams, undefined);
-    return result.body;
-  }
-
-  /**
-   * Creates a group for a tenant.
-   */
-  async createTenantGroup(params: CreateTenantGroupPathParams, body: GroupPayload): Promise<GroupDto> {
-    const pathParams: Array<[string, string]> = [
-      ['tenant', String(params.tenant)]
-    ];
-    const result = await this.inner.invoke<GroupDto>(CREATE_TENANT_GROUP_SPEC, pathParams, body);
-    return result.body;
-  }
-
-  /**
-   * Creates a user within a tenant.
-   */
-  async createTenantUser(params: CreateTenantUserPathParams, body: UserPayload): Promise<UserProvisioningResponse> {
-    const pathParams: Array<[string, string]> = [
-      ['tenant', String(params.tenant)]
-    ];
-    const result = await this.inner.invoke<UserProvisioningResponse>(CREATE_TENANT_USER_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -697,6 +697,7 @@ export class IamServiceClient {
   async removeGroupRole(params: RemoveGroupRolePathParams): Promise<GroupRoleBindingResponse> {
     const pathParams: Array<[string, string]> = [
       ['group_id', String(params.group_id)],
+      ['tenant_id', String(params.tenant_id)],
       ['role_id', String(params.role_id)]
     ];
     const result = await this.inner.invoke<GroupRoleBindingResponse>(REMOVE_GROUP_ROLE_SPEC, pathParams, undefined);
@@ -749,7 +750,7 @@ export class IamServiceClient {
    */
   async setUserMfaRequirement(params: SetUserMfaRequirementPathParams, body: UserMfaRequirementPayload): Promise<UserDto> {
     const pathParams: Array<[string, string]> = [
-      ['tenant', String(params.tenant)],
+      ['account_id', String(params.account_id)],
       ['user_id', String(params.user_id)]
     ];
     const result = await this.inner.invoke<UserDto>(SET_USER_MFA_REQUIREMENT_SPEC, pathParams, body);
@@ -852,7 +853,7 @@ export interface AddGroupRolePathParams {
 }
 
 export interface AddUserToGroupPathParams {
-  tenant: string;
+  account_id: string;
   group_id: string;
 }
 
@@ -868,19 +869,19 @@ export interface AttachPolicyToPrincipalPathParams {
   id: string;
 }
 
+export interface CreateAccountGroupPathParams {
+  account_id: string;
+}
+
+export interface CreateAccountUserPathParams {
+  account_id: string;
+}
+
 export interface CreateServiceAccountKeyPathParams {
   service_account_id: string;
 }
 
 export interface CreateSigningKeyPathParams {
-  tenant: string;
-}
-
-export interface CreateTenantGroupPathParams {
-  tenant: string;
-}
-
-export interface CreateTenantUserPathParams {
   tenant: string;
 }
 
@@ -1046,6 +1047,7 @@ export interface RemoveGroupMemberPathParams {
 
 export interface RemoveGroupRolePathParams {
   group_id: string;
+  tenant_id: string;
   role_id: string;
 }
 
@@ -1059,7 +1061,7 @@ export interface RevokeUserSessionPathParams {
 }
 
 export interface SetUserMfaRequirementPathParams {
-  tenant: string;
+  account_id: string;
   user_id: string;
 }
 
@@ -1110,7 +1112,7 @@ const ADD_GROUP_ROLE_SPEC: OperationSpec = {
 const ADD_USER_TO_GROUP_SPEC: OperationSpec = {
   name: 'AddUserToGroup',
   method: SdkHttpMethod.Post,
-  uri: '/iam/tenants/{tenant}/groups/{group_id}/users',
+  uri: '/iam/accounts/{account_id}/groups/{group_id}/users',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
@@ -1144,6 +1146,28 @@ const ATTACH_POLICY_TO_PRINCIPAL_SPEC: OperationSpec = {
   name: 'AttachPolicyToPrincipal',
   method: SdkHttpMethod.Post,
   uri: '/iam/tenants/{tenant}/principals/{type}/{id}/policies',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const CREATE_ACCOUNT_GROUP_SPEC: OperationSpec = {
+  name: 'CreateAccountGroup',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/accounts/{account_id}/groups',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const CREATE_ACCOUNT_USER_SPEC: OperationSpec = {
+  name: 'CreateAccountUser',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/accounts/{account_id}/users',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
@@ -1221,28 +1245,6 @@ const CREATE_SIGNING_KEY_SPEC: OperationSpec = {
   name: 'CreateSigningKey',
   method: SdkHttpMethod.Post,
   uri: '/iam/tenants/{tenant}/signing-keys',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: true,
-  pagination: undefined,
-  lro: false
-};
-
-const CREATE_TENANT_GROUP_SPEC: OperationSpec = {
-  name: 'CreateTenantGroup',
-  method: SdkHttpMethod.Post,
-  uri: '/iam/tenants/{tenant}/groups',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: true,
-  pagination: undefined,
-  lro: false
-};
-
-const CREATE_TENANT_USER_SPEC: OperationSpec = {
-  name: 'CreateTenantUser',
-  method: SdkHttpMethod.Post,
-  uri: '/iam/tenants/{tenant}/users',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
@@ -1792,7 +1794,7 @@ const REMOVE_GROUP_MEMBER_SPEC: OperationSpec = {
 const REMOVE_GROUP_ROLE_SPEC: OperationSpec = {
   name: 'RemoveGroupRole',
   method: SdkHttpMethod.Delete,
-  uri: '/iam/groups/{group_id}/roles/{role_id}',
+  uri: '/iam/groups/{group_id}/roles/{tenant_id}/{role_id}',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -1847,7 +1849,7 @@ const REVOKE_USER_SESSION_SPEC: OperationSpec = {
 const SET_USER_MFA_REQUIREMENT_SPEC: OperationSpec = {
   name: 'SetUserMfaRequirement',
   method: SdkHttpMethod.Put,
-  uri: '/iam/tenants/{tenant}/users/{user_id}/mfa',
+  uri: '/iam/accounts/{account_id}/users/{user_id}/mfa',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
