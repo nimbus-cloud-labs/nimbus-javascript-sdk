@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { ApiKeyListResponse, ApiKeyMetadata, ApiKeyResponse, AssumeRoleRequest, AuditEventEnvelope, AuditEventListResponse, AuditEventQuery, AuditEventResponse, AuditExportJobResponse, AuditExportQuery, CreatePolicy, GroupDto, GroupListResponse, GroupMembershipDto, GroupMembershipListResponse, GroupMembershipPayload, GroupMembershipResponse, GroupPayload, GroupResponse, GroupRoleBindingListResponse, GroupRoleBindingPayload, GroupRoleBindingResponse, GroupUpdatePayload, JsonValue, ManagedPolicyAttachmentListResponse, ManagedPolicyAttachmentPayload, ManagedPolicyListResponse, ManagedPolicyResponse, OidcProviderListResponse, OidcProviderPayload, OidcProviderQuery, OidcProviderResponse, OidcProviderUpdatePayload, Policy, PolicyAttachmentPayload, PolicyListQuery, PolicyListResponse, PolicyVersionListResponse, Principal, RoleListResponse, RolePayload, RoleQuery, RoleResponse, RoleUpdatePayload, ServiceAccountListResponse, ServiceAccountPayload, ServiceAccountQuery, ServiceAccountResponse, ServiceAccountTokenRevokePayload, ServiceAccountUpdatePayload, SessionListQuery, SessionListResponse, SessionRevokeAllPayload, SessionRevokePayload, SigningKeyResponse, TenantListResponse, TenantResponse, TenantSuspendPayload, TenantUpdatePayload, TokenRequest, TokenResponse, UpdatePolicy, UserDto, UserInvitePayload, UserKeyQuery, UserListResponse, UserMfaRequirementPayload, UserPayload, UserProvisioningResponse, UserResponse, UserSessionListResponse, UserSessionResponse, UserUpdatePayload } from './types';
+import type { ApiKeyListResponse, ApiKeyMetadata, ApiKeyResponse, AssumeRoleRequest, AuditEventEnvelope, AuditEventListResponse, AuditEventQuery, AuditEventResponse, AuditExportJobResponse, AuditExportQuery, CreatePolicy, EvaluateRequest, EvaluateResponse, GroupDto, GroupListResponse, GroupMembershipDto, GroupMembershipListResponse, GroupMembershipPayload, GroupMembershipResponse, GroupPayload, GroupResponse, GroupRoleBindingListResponse, GroupRoleBindingPayload, GroupRoleBindingResponse, GroupUpdatePayload, JsonValue, ManagedPolicyAttachmentListResponse, ManagedPolicyAttachmentPayload, ManagedPolicyListResponse, ManagedPolicyResponse, OidcProviderListResponse, OidcProviderPayload, OidcProviderQuery, OidcProviderResponse, OidcProviderUpdatePayload, Policy, PolicyAttachmentPayload, PolicyListQuery, PolicyListResponse, PolicyVersionListResponse, Principal, RoleListResponse, RolePayload, RoleQuery, RoleResponse, RoleUpdatePayload, ServiceAccountListResponse, ServiceAccountPayload, ServiceAccountQuery, ServiceAccountResponse, ServiceAccountTokenRevokePayload, ServiceAccountUpdatePayload, SessionListQuery, SessionListResponse, SessionRevokeAllPayload, SessionRevokePayload, SigningKeyResponse, TenantListResponse, TenantResponse, TenantSuspendPayload, TenantUpdatePayload, TokenRequest, TokenResponse, UpdatePolicy, UserDto, UserInvitePayload, UserKeyQuery, UserListResponse, UserMfaRequirementPayload, UserPayload, UserProvisioningResponse, UserResponse, UserSessionListResponse, UserSessionResponse, UserUpdatePayload } from './types';
 
 export class IamServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -366,6 +366,15 @@ export class IamServiceClient {
       ['key_id', String(params.key_id)]
     ];
     const result = await this.inner.invoke<ApiKeyMetadata>(ENABLE_USER_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  /**
+   * Evaluates policy decisions for an action and resource.
+   */
+  async evaluate(body: EvaluateRequest): Promise<EvaluateResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<EvaluateResponse>(EVALUATE_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -1443,6 +1452,17 @@ const ENABLE_USER_KEY_SPEC: OperationSpec = {
   name: 'EnableUserKey',
   method: SdkHttpMethod.Post,
   uri: '/iam/users/{user_id}/keys/{key_id}/enable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const EVALUATE_SPEC: OperationSpec = {
+  name: 'Evaluate',
+  method: SdkHttpMethod.Post,
+  uri: '/iam/evaluate',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
