@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { AuthError, StaticKeyCredentialProvider, encodeBase64 } from '@nimbus-cloud/sdk-core';
 
-const ACCESS_KEY = 'ABCDEFGHIJKLMNOPQRST';
+const ACCESS_KEY = '0123456789ABCDEFGHJKMNPQRS';
 const SECRET_KEY = 'abcdEFGHijklMNOPqrstUVWXyz0123456789ABCDabcd';
 
 describe('StaticKeyCredentialProvider', () => {

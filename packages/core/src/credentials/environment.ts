@@ -9,7 +9,7 @@ const ACCESS_KEY = 'ACCESS_KEY';
 const SECRET_KEY = 'SECRET_KEY';
 const REGION_KEY = 'REGION';
 const SESSION_TOKEN_KEY = 'SESSION_TOKEN';
-const ACCESS_KEY_REGEX = /^[A-Z0-9]{20}$/;
+const ACCESS_KEY_REGEX = /^(?:[A-Z0-9]{26}|[A-Z0-9]{31})$/;
 const SECRET_KEY_REGEX = /^[A-Za-z0-9_-]{44}$/;
 const REGION_REGEX = /^[a-z]+-[a-z]+-[0-9]{1,2}$/;
 
@@ -178,7 +178,7 @@ export class EnvironmentCredentialProvider implements AuthTokenProvider {
 
 function validateAccessKey(value: string): void {
   if (!ACCESS_KEY_REGEX.test(value)) {
-    throw new Error('Must be 20 uppercase alphanumeric characters.');
+    throw new Error('Must be 26 or 31 uppercase alphanumeric characters.');
   }
 }
 

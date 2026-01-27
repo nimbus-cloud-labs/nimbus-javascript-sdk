@@ -2,7 +2,7 @@ import type { AuthTokenProvider } from '../auth';
 import { AuthError } from '../errors';
 import { decodeBase64Json, encodeBase64 } from '../runtime/base64';
 
-const ACCESS_KEY_REGEX = /^[A-Z0-9]{20}$/;
+const ACCESS_KEY_REGEX = /^(?:[A-Z0-9]{26}|[A-Z0-9]{31})$/;
 const SECRET_KEY_REGEX = /^[A-Za-z0-9_-]{44}$/;
 
 export interface StaticKeyCredentialProviderOptions {
@@ -19,7 +19,7 @@ export class StaticKeyCredentialProvider implements AuthTokenProvider {
   constructor(options: StaticKeyCredentialProviderOptions) {
     const { accessKey, secretKey, sessionToken } = options;
     if (!ACCESS_KEY_REGEX.test(accessKey)) {
-      throw new AuthError('Access key must be 20 uppercase alphanumeric characters.');
+      throw new AuthError('Access key must be 26 or 31 uppercase alphanumeric characters.');
     }
     if (!SECRET_KEY_REGEX.test(secretKey)) {
       throw new AuthError('Secret key must be a 44-character URL-safe Base64 string without padding.');

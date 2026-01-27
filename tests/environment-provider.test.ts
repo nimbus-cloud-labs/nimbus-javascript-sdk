@@ -9,7 +9,7 @@ import {
   encodeBase64
 } from '@nimbus-cloud/sdk-core';
 
-const ACCESS_KEY = 'ABCDEFGHIJKLMNOPQRST';
+const ACCESS_KEY = '0123456789ABCDEFGHJKMNPQRS';
 const SECRET_KEY = 'abcdEFGHijklMNOPqrstUVWXyz0123456789ABCDabcd';
 const REGION = 'eu-north-2';
 
