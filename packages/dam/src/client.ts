@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, AssetVersionMetadataResponse, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, PipelineRerunRequest, PipelineRerunResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
+import type { AssetDetailResponse, AssetDownloadResponse, AssetPrefixListResponse, AssetPrefixResponse, AssetRenditionListResponse, AssetRenditionRecord, AssetSearchRequest, AssetSearchResponse, AssetVersionMetadataResponse, BucketListResponse, BucketRecord, CollectionListResponse, CollectionMembershipChangeRequest, CollectionMembershipListResponse, CollectionResponse, CompleteIngestionRequest, CreateAssetPrefixRequest, CreateBucketRequest, CreateCollectionRequest, CreatePipelineRequest, CreateSmartAlbumRequest, CustomMetadataRequest, IndexSnapshotRequest, IndexSnapshotResponse, IngestionRequest, IngestionResponse, JsonValue, LifecycleRequest, LifecycleResponse, OperationResponse, PipelineListResponse, PipelineRecordResponse, PipelineRerunRequest, PipelineRerunResponse, ProcessorCallbackPayload, SmartAlbumListResponse, SmartAlbumResponse, UpdateCollectionRequest, UpdatePipelineRequest, UpdateSmartAlbumRequest } from './types';
 
 export class DamManagementServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -56,6 +56,12 @@ export class DamManagementServiceClient {
     return result.body;
   }
 
+  async createBucket(body: CreateBucketRequest): Promise<BucketRecord> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<BucketRecord>(CREATE_BUCKET_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async createCollection(body: CreateCollectionRequest): Promise<CollectionResponse> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<CollectionResponse>(CREATE_COLLECTION_SPEC, pathParams, body);
@@ -87,6 +93,14 @@ export class DamManagementServiceClient {
       ['prefix_id', String(params.prefix_id)]
     ];
     const result = await this.inner.invoke<JsonValue>(DELETE_ASSET_PREFIX_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async deleteBucket(params: DeleteBucketPathParams): Promise<JsonValue> {
+    const pathParams: Array<[string, string]> = [
+      ['bucket_name', String(params.bucket_name)]
+    ];
+    const result = await this.inner.invoke<JsonValue>(DELETE_BUCKET_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -159,6 +173,12 @@ export class DamManagementServiceClient {
       ['asset_id', String(params.asset_id)]
     ];
     const result = await this.inner.invoke<AssetRenditionListResponse>(LIST_ASSET_RENDITIONS_SPEC, pathParams, undefined);
+    return result.body;
+  }
+
+  async listBuckets(): Promise<BucketListResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<BucketListResponse>(LIST_BUCKETS_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -325,6 +345,10 @@ export interface DeleteAssetPrefixPathParams {
   prefix_id: string;
 }
 
+export interface DeleteBucketPathParams {
+  bucket_name: string;
+}
+
 export interface DeleteCollectionPathParams {
   collection_id: string;
 }
@@ -475,6 +499,17 @@ const CREATE_ASSET_RENDITION_DOWNLOAD_SPEC: OperationSpec = {
   lro: false
 };
 
+const CREATE_BUCKET_SPEC: OperationSpec = {
+  name: 'CreateBucket',
+  method: SdkHttpMethod.Post,
+  uri: '/buckets',
+  successCode: 201,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
 const CREATE_COLLECTION_SPEC: OperationSpec = {
   name: 'CreateCollection',
   method: SdkHttpMethod.Post,
@@ -523,6 +558,17 @@ const DELETE_ASSET_PREFIX_SPEC: OperationSpec = {
   name: 'DeleteAssetPrefix',
   method: SdkHttpMethod.Delete,
   uri: '/assets/prefixes/{prefix_id}',
+  successCode: 204,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const DELETE_BUCKET_SPEC: OperationSpec = {
+  name: 'DeleteBucket',
+  method: SdkHttpMethod.Delete,
+  uri: '/buckets/{bucket_name}',
   successCode: 204,
   additionalSuccessResponses: [],
   idempotent: false,
@@ -622,6 +668,17 @@ const LIST_ASSET_RENDITIONS_SPEC: OperationSpec = {
   name: 'ListAssetRenditions',
   method: SdkHttpMethod.Get,
   uri: '/assets/{asset_id}/renditions',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: false,
+  pagination: undefined,
+  lro: false
+};
+
+const LIST_BUCKETS_SPEC: OperationSpec = {
+  name: 'ListBuckets',
+  method: SdkHttpMethod.Get,
+  uri: '/buckets',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,
