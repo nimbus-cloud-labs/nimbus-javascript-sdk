@@ -8,7 +8,13 @@ import {
   ProblemDetailsError,
   UnexpectedStatusError
 } from './errors';
-import { FetchTransport, SdkHttpMethod, Transport, TransportRequest } from './transport';
+import {
+  FetchTransport,
+  FetchTransportOptions,
+  SdkHttpMethod,
+  Transport,
+  TransportRequest
+} from './transport';
 
 export interface AdditionalSuccessResponseSpec {
   code: number;
@@ -52,6 +58,7 @@ export class SdkConfigBuilder {
   private auth?: AuthTokenProvider;
   private idempotency?: IdempotencyTokenProvider;
   private lro?: OperationStatusClient;
+  private transportOptions?: FetchTransportOptions;
   private envProviderDisabled = false;
 
   endpoint(url: string): this {
@@ -61,6 +68,11 @@ export class SdkConfigBuilder {
 
   withTransport(transport: Transport): this {
     this.transport = transport;
+    return this;
+  }
+
+  withTransportOptions(options: FetchTransportOptions): this {
+    this.transportOptions = options;
     return this;
   }
 
@@ -107,7 +119,7 @@ export class SdkConfigBuilder {
     if (!this.endpointUrl) {
       return undefined;
     }
-    return new FetchTransport(this.endpointUrl);
+    return new FetchTransport(this.endpointUrl, this.transportOptions);
   }
 
   private buildDefaultAuthProvider(): AuthTokenProvider | undefined {

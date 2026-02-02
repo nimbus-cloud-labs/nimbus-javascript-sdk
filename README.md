@@ -46,6 +46,32 @@ const config = NimbusClient.builder()
   .build();
 ```
 
+## mTLS (Node.js)
+Client certificates are only supported in Node.js runtimes. Provide a custom `fetch` implementation
+and request init options with a TLS-enabled dispatcher.
+
+```ts
+import { Agent, fetch as undiciFetch } from 'undici';
+import { NimbusClient, StaticTokenProvider } from '@nimbus-cloud/sdk-core';
+
+const dispatcher = new Agent({
+  connect: {
+    cert: Buffer.from(process.env.NIMBUS_CLIENT_CERT ?? '', 'utf8'),
+    key: Buffer.from(process.env.NIMBUS_CLIENT_KEY ?? '', 'utf8'),
+    ca: process.env.NIMBUS_MTLS_CA ? [Buffer.from(process.env.NIMBUS_MTLS_CA, 'utf8')] : undefined
+  }
+});
+
+const config = NimbusClient.builder()
+  .endpoint('https://api.nimbuscloudplatform.eu')
+  .withAuth(new StaticTokenProvider('token'))
+  .withTransportOptions({
+    fetcher: undiciFetch,
+    requestInit: { dispatcher }
+  })
+  .build();
+```
+
 ## Pagination and LRO
 Paginator helpers return `AsyncIterable` streams, and long-running operations expose `.wait()` helpers.
 

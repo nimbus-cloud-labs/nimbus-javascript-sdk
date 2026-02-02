@@ -29,11 +29,15 @@ export enum SdkHttpMethod {
 
 export interface FetchTransportOptions {
   defaultHeaders?: HeaderMap;
+  fetcher?: typeof fetch;
+  requestInit?: RequestInit;
 }
 
 export class FetchTransport implements Transport {
   private readonly baseUrl: URL;
   private readonly defaultHeaders: HeaderMap;
+  private readonly fetcher: typeof fetch;
+  private readonly requestInit?: RequestInit;
 
   constructor(baseUrl: string, options: FetchTransportOptions = {}) {
     this.baseUrl = new URL(baseUrl);
@@ -41,12 +45,19 @@ export class FetchTransport implements Transport {
       accept: 'application/json',
       ...options.defaultHeaders
     };
+    this.fetcher = options.fetcher ?? fetch;
+    this.requestInit = options.requestInit;
   }
 
   async execute(request: TransportRequest): Promise<TransportResponse> {
     const target = new URL(request.path, this.baseUrl);
-    const headers: HeaderMap = { ...this.defaultHeaders, ...request.headers };
+    const headers: HeaderMap = {
+      ...this.defaultHeaders,
+      ...normalizeHeaders(this.requestInit?.headers),
+      ...request.headers
+    };
     const init: RequestInit = {
+      ...this.requestInit,
       method: request.method,
       headers
     };
@@ -56,11 +67,13 @@ export class FetchTransport implements Transport {
     } else if (request.body !== undefined) {
       headers['content-type'] = headers['content-type'] ?? 'application/json';
       init.body = typeof request.body === 'string' ? request.body : JSON.stringify(request.body);
+    } else if (this.requestInit?.body !== undefined) {
+      init.body = this.requestInit.body;
     }
 
     let response: Response;
     try {
-      response = await fetch(target, init);
+      response = await this.fetcher(target, init);
     } catch (error) {
       throw new TransportError(`HTTP error: ${(error as Error).message}`);
     }
@@ -87,6 +100,29 @@ export class FetchTransport implements Transport {
 
     return { status, headers: headerMap, body };
   }
+}
+
+function normalizeHeaders(source: HeadersInit | undefined): HeaderMap {
+  if (!source) {
+    return {};
+  }
+  if (source instanceof Headers) {
+    const map: HeaderMap = {};
+    source.forEach((value, key) => {
+      map[key.toLowerCase()] = value;
+    });
+    return map;
+  }
+  if (Array.isArray(source)) {
+    const map: HeaderMap = {};
+    for (const [key, value] of source) {
+      map[key.toLowerCase()] = value;
+    }
+    return map;
+  }
+  return Object.fromEntries(
+    Object.entries(source).map(([key, value]) => [key.toLowerCase(), value])
+  );
 }
 
 function appendQuery(url: URL, payload: unknown): void {
