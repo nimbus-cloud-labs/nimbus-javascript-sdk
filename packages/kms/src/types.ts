@@ -1,0 +1,20 @@
+// Generated types – do not edit.
+export type JsonValue = Record<string, unknown>;
+export type CancelKeyDeletionRequest = Record<string, unknown>;
+export type CreateKeyRequest = Record<string, unknown>;
+export type DecryptDataKeyRequest = Record<string, unknown>;
+export type DecryptDataKeyResponse = Record<string, unknown>;
+export type DecryptRequest = Record<string, unknown>;
+export type DecryptResponse = Record<string, unknown>;
+export type EncryptRequest = Record<string, unknown>;
+export type EncryptResponse = Record<string, unknown>;
+export type EncryptionAlgorithm = Record<string, unknown>;
+export type EncryptionContextMap = Record<string, unknown>;
+export type GenerateDataKeyRequest = Record<string, unknown>;
+export type GenerateDataKeyResponse = Record<string, unknown>;
+export type KeyMetadataResponse = Record<string, unknown>;
+export type KeySpec = Record<string, unknown>;
+export type KeyState = Record<string, unknown>;
+export type KeyTagsMap = Record<string, unknown>;
+export type KeyUsage = Record<string, unknown>;
+export type ScheduleKeyDeletionRequest = Record<string, unknown>;

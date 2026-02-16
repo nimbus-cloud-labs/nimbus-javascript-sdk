@@ -1,0 +1,32 @@
+{
+  "name": "@nimbus-cloud/kms-client",
+  "version": "1.0.0",
+  "description": "KmsService client generated from Smithy models",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "keywords": [
+    "nimbus",
+    "sdk",
+    "kms"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.registry.nimbuscloudplatform.com",
+    "access": "restricted"
+  },
+  "dependencies": {
+    "@nimbus-cloud/sdk-core": "^0.1.0"
+  }
+}
