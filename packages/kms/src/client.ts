@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationSpec, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { CancelKeyDeletionRequest, CreateKeyRequest, DecryptDataKeyRequest, DecryptDataKeyResponse, DecryptRequest, DecryptResponse, EncryptRequest, EncryptResponse, GenerateDataKeyRequest, GenerateDataKeyResponse, KeyMetadataResponse, ScheduleKeyDeletionRequest } from './types';
+import type { CancelKeyDeletionRequest, CreateKeyRequest, DecryptDataKeyRequest, DecryptDataKeyResponse, DecryptRequest, DecryptResponse, DisableKeyRequest, EnableKeyRequest, EncryptRequest, EncryptResponse, GenerateDataKeyRequest, GenerateDataKeyResponse, KeyMetadataResponse, PurgeKeyRequest, RotateKeyRequest, ScheduleKeyDeletionRequest, SignRequest, SignResponse, VerifyRequest, VerifyResponse } from './types';
 
 export class KmsServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -51,6 +51,38 @@ export class KmsServiceClient {
     return result.body;
   }
 
+  async disableKey(params: DisableKeyPathParams, body: DisableKeyRequest): Promise<KeyMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<KeyMetadataResponse>(DISABLE_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async enableKey(params: EnableKeyPathParams, body: EnableKeyRequest): Promise<KeyMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<KeyMetadataResponse>(ENABLE_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async rotateKey(params: RotateKeyPathParams, body: RotateKeyRequest): Promise<KeyMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<KeyMetadataResponse>(ROTATE_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async purgeKey(params: PurgeKeyPathParams, body: PurgeKeyRequest): Promise<KeyMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<KeyMetadataResponse>(PURGE_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
   async scheduleKeyDeletion(params: ScheduleKeyDeletionPathParams, body: ScheduleKeyDeletionRequest): Promise<KeyMetadataResponse> {
     const pathParams: Array<[string, string]> = [
       ['key_id', String(params.key_id)]
@@ -59,9 +91,37 @@ export class KmsServiceClient {
     return result.body;
   }
 
+  async sign(body: SignRequest): Promise<SignResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<SignResponse>(SIGN_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async verify(body: VerifyRequest): Promise<VerifyResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<VerifyResponse>(VERIFY_SPEC, pathParams, body);
+    return result.body;
+  }
+
 }
 
 export interface CancelKeyDeletionPathParams {
+  key_id: string;
+}
+
+export interface DisableKeyPathParams {
+  key_id: string;
+}
+
+export interface EnableKeyPathParams {
+  key_id: string;
+}
+
+export interface RotateKeyPathParams {
+  key_id: string;
+}
+
+export interface PurgeKeyPathParams {
   key_id: string;
 }
 
@@ -135,10 +195,76 @@ const GENERATE_DATA_KEY_SPEC: OperationSpec = {
   lro: false
 };
 
+const DISABLE_KEY_SPEC: OperationSpec = {
+  name: 'DisableKey',
+  method: SdkHttpMethod.Post,
+  uri: '/keys/{key_id}/disable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const ENABLE_KEY_SPEC: OperationSpec = {
+  name: 'EnableKey',
+  method: SdkHttpMethod.Post,
+  uri: '/keys/{key_id}/enable',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const ROTATE_KEY_SPEC: OperationSpec = {
+  name: 'RotateKey',
+  method: SdkHttpMethod.Post,
+  uri: '/keys/{key_id}/rotate',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const PURGE_KEY_SPEC: OperationSpec = {
+  name: 'PurgeKey',
+  method: SdkHttpMethod.Post,
+  uri: '/keys/{key_id}/purge',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
 const SCHEDULE_KEY_DELETION_SPEC: OperationSpec = {
   name: 'ScheduleKeyDeletion',
   method: SdkHttpMethod.Post,
   uri: '/keys/{key_id}/schedule-deletion',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const SIGN_SPEC: OperationSpec = {
+  name: 'Sign',
+  method: SdkHttpMethod.Post,
+  uri: '/crypto/sign',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const VERIFY_SPEC: OperationSpec = {
+  name: 'Verify',
+  method: SdkHttpMethod.Post,
+  uri: '/crypto/verify',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
