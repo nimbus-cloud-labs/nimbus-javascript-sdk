@@ -1,90 +1,453 @@
 // Generated types – do not edit.
-export type JsonValue = Record<string, unknown>;
-export type AssetDetailResponse = Record<string, unknown>;
-export type AssetDownloadResponse = Record<string, unknown>;
-export type AssetFilterPayload = Record<string, unknown>;
-export type AssetFilterPayloadPathList = Record<string, unknown>;
-export type AssetPrefixListResponse = Record<string, unknown>;
-export type AssetPrefixListResponseItemsList = Record<string, unknown>;
-export type AssetPrefixRecord = Record<string, unknown>;
-export type AssetPrefixResponse = Record<string, unknown>;
-export type AssetRecord = Record<string, unknown>;
-export type AssetRecordMetadataList = Record<string, unknown>;
-export type AssetRenditionListResponse = Record<string, unknown>;
-export type AssetRenditionListResponseItemsList = Record<string, unknown>;
-export type AssetRenditionRecord = Record<string, unknown>;
-export type AssetSearchItem = Record<string, unknown>;
-export type AssetSearchRequest = Record<string, unknown>;
-export type AssetSearchRequestFiltersList = Record<string, unknown>;
-export type AssetSearchRequestSortsList = Record<string, unknown>;
-export type AssetSearchResponse = Record<string, unknown>;
-export type AssetSearchResponseItemsList = Record<string, unknown>;
-export type AssetSortPayload = Record<string, unknown>;
-export type AssetVersionMetadataResponse = Record<string, unknown>;
-export type AssetVersionMetadataResponseMetadataList = Record<string, unknown>;
-export type BucketListResponse = Record<string, unknown>;
-export type BucketListResponseItemsList = Record<string, unknown>;
-export type BucketRecord = Record<string, unknown>;
-export type CollectionListResponse = Record<string, unknown>;
-export type CollectionListResponseItemsList = Record<string, unknown>;
-export type CollectionMembershipChangeRequest = Record<string, unknown>;
-export type CollectionMembershipChangeRequestMembersList = Record<string, unknown>;
-export type CollectionMembershipListResponse = Record<string, unknown>;
-export type CollectionMembershipListResponseItemsList = Record<string, unknown>;
-export type CollectionMembershipRequest = Record<string, unknown>;
-export type CollectionMembershipResponse = Record<string, unknown>;
-export type CollectionResponse = Record<string, unknown>;
-export type CompleteIngestionRequest = Record<string, unknown>;
-export type CreateAssetPrefixRequest = Record<string, unknown>;
-export type CreateBucketRequest = Record<string, unknown>;
-export type CreateCollectionRequest = Record<string, unknown>;
-export type CreatePipelineRequest = Record<string, unknown>;
-export type CreatePipelineRequestRenditionsList = Record<string, unknown>;
-export type CreatePipelineRequestRulesList = Record<string, unknown>;
-export type CreateSmartAlbumRequest = Record<string, unknown>;
-export type CreateSmartAlbumRequestRulesList = Record<string, unknown>;
-export type CustomMetadataRequest = Record<string, unknown>;
-export type IndexSnapshotRequest = Record<string, unknown>;
-export type IndexSnapshotResponse = Record<string, unknown>;
-export type IngestionRequest = Record<string, unknown>;
-export type IngestionResponse = Record<string, unknown>;
-export type LifecycleExposureRequest = Record<string, unknown>;
-export type LifecycleExposureSchedule = Record<string, unknown>;
-export type LifecycleRequest = Record<string, unknown>;
-export type LifecycleRequestExposuresList = Record<string, unknown>;
-export type LifecycleResponse = Record<string, unknown>;
-export type MetadataEntry = Record<string, unknown>;
-export type OperationContextPayload = Record<string, unknown>;
-export type OperationResponse = Record<string, unknown>;
-export type PendingAssetVersion = Record<string, unknown>;
-export type PendingUploadVersion = Record<string, unknown>;
-export type PipelineListResponse = Record<string, unknown>;
-export type PipelineListResponseItemsList = Record<string, unknown>;
-export type PipelineRecordResponse = Record<string, unknown>;
-export type PipelineRecordResponseRenditionsList = Record<string, unknown>;
-export type PipelineRecordResponseRulesList = Record<string, unknown>;
-export type PipelineRenditionRequest = Record<string, unknown>;
-export type PipelineRenditionResponse = Record<string, unknown>;
-export type PipelineRerunRequest = Record<string, unknown>;
-export type PipelineRerunResponse = Record<string, unknown>;
-export type PipelineRerunResponseOperationsList = Record<string, unknown>;
-export type PipelineRuleRequest = Record<string, unknown>;
-export type PipelineRuleResponse = Record<string, unknown>;
-export type ProcessorCallbackPayload = Record<string, unknown>;
-export type RegisteredAsset = Record<string, unknown>;
-export type SmartAlbumListResponse = Record<string, unknown>;
-export type SmartAlbumListResponseItemsList = Record<string, unknown>;
-export type SmartAlbumRecordResponse = Record<string, unknown>;
-export type SmartAlbumResponse = Record<string, unknown>;
-export type SmartAlbumResponseRulesList = Record<string, unknown>;
-export type SmartAlbumRuleRequest = Record<string, unknown>;
-export type SmartAlbumRuleResponse = Record<string, unknown>;
-export type UpdateCollectionRequest = Record<string, unknown>;
-export type UpdatePipelineRequest = Record<string, unknown>;
-export type UpdatePipelineRequestRenditionsList = Record<string, unknown>;
-export type UpdatePipelineRequestRulesList = Record<string, unknown>;
-export type UpdateSmartAlbumRequest = Record<string, unknown>;
-export type UpdateSmartAlbumRequestRulesList = Record<string, unknown>;
-export type UploadTicket = Record<string, unknown>;
-export type UploadedAssetVersion = Record<string, unknown>;
-export type UploadedVersionPayload = Record<string, unknown>;
+export type JsonPrimitive = string | number | boolean | null;
+export interface JsonObject { [key: string]: JsonValue; }
+export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
+export interface AssetDetailResponse {
+  asset: AssetRecord;
+  latestVersion?: UploadedAssetVersion;
+}
+export interface AssetDownloadResponse {
+  downloadUrl: string;
+  expiresAt: string;
+}
+export interface AssetFilterPayload {
+  kind: string;
+  value?: string;
+  collectionId?: string;
+  albumId?: string;
+  path: AssetFilterPayloadPathList;
+}
+export type AssetFilterPayloadPathList = string[];
+export interface AssetPrefixListResponse {
+  items: AssetPrefixListResponseItemsList;
+}
+export type AssetPrefixListResponseItemsList = AssetPrefixRecord[];
+export interface AssetPrefixRecord {
+  tenantId: string;
+  prefixId: string;
+  prefix: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface AssetPrefixResponse {
+  prefix: AssetPrefixRecord;
+}
+export interface AssetRecord {
+  assetId: string;
+  displayName: string;
+  description?: string;
+  mediaType: string;
+  lifecycleState: string;
+  metadata: AssetRecordMetadataList;
+  path?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export type AssetRecordMetadataList = MetadataEntry[];
+export interface AssetRenditionListResponse {
+  items: AssetRenditionListResponseItemsList;
+}
+export type AssetRenditionListResponseItemsList = AssetRenditionRecord[];
+export interface AssetRenditionRecord {
+  tenantId: string;
+  assetId: string;
+  renditionId: string;
+  versionId: string;
+  profile: string;
+  pipelineRef: string;
+  pipelineRevision?: string;
+  storageKey: string;
+  status: string;
+  metadata: JsonValue;
+  contentType?: string;
+  createdAt: string;
+  completedAt?: string;
+}
+export interface AssetSearchItem {
+  assetId: string;
+  displayName: string;
+  description?: string;
+  mediaType: string;
+  lifecycleState: string;
+  bucketName: string;
+  path?: string;
+  createdAt: string;
+  updatedAt: string;
+  score: number;
+}
+export interface AssetSearchRequest {
+  term?: string;
+  filters: AssetSearchRequestFiltersList;
+  sorts: AssetSearchRequestSortsList;
+  limit?: number;
+  offset?: number;
+}
+export type AssetSearchRequestFiltersList = AssetFilterPayload[];
+export type AssetSearchRequestSortsList = AssetSortPayload[];
+export interface AssetSearchResponse {
+  total: number;
+  items: AssetSearchResponseItemsList;
+}
+export type AssetSearchResponseItemsList = AssetSearchItem[];
+export interface AssetSortPayload {
+  field: string;
+  direction?: string;
+}
+export interface AssetVersionMetadataResponse {
+  metadata: AssetVersionMetadataResponseMetadataList;
+}
+export type AssetVersionMetadataResponseMetadataList = MetadataEntry[];
+export interface BucketListResponse {
+  items: BucketListResponseItemsList;
+}
+export type BucketListResponseItemsList = BucketRecord[];
+export interface BucketRecord {
+  tenantId: string;
+  bucketName: string;
+  createdAt: string;
+  updatedAt: string;
+}
+export interface CollectionListResponse {
+  items: CollectionListResponseItemsList;
+}
+export type CollectionListResponseItemsList = CollectionResponse[];
+export interface CollectionMembershipChangeRequest {
+  members: CollectionMembershipChangeRequestMembersList;
+}
+export type CollectionMembershipChangeRequestMembersList = CollectionMembershipRequest[];
+export interface CollectionMembershipListResponse {
+  items: CollectionMembershipListResponseItemsList;
+}
+export type CollectionMembershipListResponseItemsList = CollectionMembershipResponse[];
+export interface CollectionMembershipRequest {
+  membershipId?: string;
+  assetId: string;
+  renditionId?: string;
+  addedBy?: string;
+}
+export interface CollectionMembershipResponse {
+  membershipId: string;
+  tenantId: string;
+  collectionId: string;
+  assetId: string;
+  renditionId?: string;
+  addedAt: string;
+  addedBy?: string;
+}
+export interface CollectionResponse {
+  tenantId: string;
+  collectionId: string;
+  displayName: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+  lockVersion: number;
+}
+export interface CompleteIngestionRequest {
+  uploadToken: string;
+  checksumAlgorithm: string;
+  checksum: string;
+  sizeBytes: number;
+}
+export interface CreateAssetPrefixRequest {
+  prefix: string;
+}
+export interface CreateBucketRequest {
+  bucketName: string;
+}
+export interface CreateCollectionRequest {
+  collectionId: string;
+  displayName: string;
+  description?: string;
+}
+export interface CreatePipelineRequest {
+  displayName: string;
+  notes?: string;
+  pipelinePrefix?: string;
+  cdnHost?: string;
+  enabled?: boolean;
+  renditions: CreatePipelineRequestRenditionsList;
+  rules: CreatePipelineRequestRulesList;
+}
+export type CreatePipelineRequestRenditionsList = PipelineRenditionRequest[];
+export type CreatePipelineRequestRulesList = PipelineRuleRequest[];
+export interface CreateSmartAlbumRequest {
+  albumId: string;
+  displayName: string;
+  description?: string;
+  definition: JsonValue;
+  rules: CreateSmartAlbumRequestRulesList;
+}
+export type CreateSmartAlbumRequestRulesList = SmartAlbumRuleRequest[];
+export interface CustomMetadataRequest {
+  customMetadata: JsonValue;
+}
+export interface IndexSnapshotRequest {
+  snapshotId: string;
+  assetId: string;
+  renditionId?: string;
+  indexScope: string;
+  document: string;
+  metadata: JsonValue;
+  materializedAt: string;
+}
+export interface IndexSnapshotResponse {
+  snapshotId: string;
+  tenantId: string;
+  assetId: string;
+  renditionId?: string;
+  indexScope: string;
+  document: string;
+  metadata: JsonValue;
+  materializedAt: string;
+}
+export interface IngestionRequest {
+  displayName: string;
+  mediaType: string;
+  contentLength: number;
+  checksumAlgorithm: string;
+  checksum: string;
+  metadata: JsonValue;
+  pathPrefix?: string;
+  bucketName?: string;
+}
+export interface IngestionResponse {
+  asset: RegisteredAsset;
+  version: PendingUploadVersion;
+  upload: UploadTicket;
+}
+export interface LifecycleExposureRequest {
+  pipelineRef: string;
+  ruleSlug: string;
+  path: string;
+  contentType: string;
+  storageKey?: string;
+  cachePolicy?: string;
+  schedule?: LifecycleExposureSchedule;
+}
+export interface LifecycleExposureSchedule {
+  startsAt?: string;
+  expiresAt?: string;
+}
+export interface LifecycleRequest {
+  reason?: string;
+  exposures?: LifecycleRequestExposuresList;
+}
+export type LifecycleRequestExposuresList = LifecycleExposureRequest[];
+export interface LifecycleResponse {
+  assetId: string;
+  tenantId: string;
+  previousState: string;
+  state: string;
+  lockVersion: number;
+  updatedAt: string;
+}
+export interface MetadataEntry {
+  key: string;
+  kind: string;
+  value: JsonValue;
+}
+export interface OperationContextPayload {
+  initiator: string;
+  action: string;
+  resourceUrn: string;
+}
+export interface OperationResponse {
+  operationId: string;
+  status: JsonValue;
+  createdAt: string;
+  updatedAt: string;
+  expiresAt?: string;
+  context: OperationContextPayload;
+  metadata?: JsonValue;
+  result?: JsonValue;
+  error?: JsonValue;
+  progressStream?: string;
+}
+export interface PendingAssetVersion {
+  tenantId: string;
+  assetId: string;
+  versionId: string;
+  ordinal: number;
+  storageKey: string;
+  checksumAlgorithm: string;
+  declaredChecksum: string;
+  contentLength: number;
+  status: string;
+  createdAt: string;
+}
+export interface PendingUploadVersion {
+  versionId: string;
+  storageKey: string;
+  status: string;
+  checksumAlgorithm: string;
+  checksum: string;
+  contentLength: number;
+  createdAt: string;
+}
+export interface PipelineListResponse {
+  items: PipelineListResponseItemsList;
+}
+export type PipelineListResponseItemsList = PipelineRecordResponse[];
+export interface PipelineRecordResponse {
+  tenantId: string;
+  pipelineId: string;
+  pipelineRef: string;
+  displayName: string;
+  notes?: string;
+  pipelinePrefix?: string;
+  cdnHost?: string;
+  enabled: boolean;
+  renditions: PipelineRecordResponseRenditionsList;
+  rules: PipelineRecordResponseRulesList;
+  createdAt: string;
+  updatedAt: string;
+  lockVersion: number;
+}
+export type PipelineRecordResponseRenditionsList = PipelineRenditionResponse[];
+export type PipelineRecordResponseRulesList = PipelineRuleResponse[];
+export interface PipelineRenditionRequest {
+  name: string;
+  pipeline: string;
+  contentType: string;
+}
+export interface PipelineRenditionResponse {
+  name: string;
+  pipeline: string;
+  contentType: string;
+}
+export interface PipelineRerunRequest {
+  pipelineRef?: string;
+  profile?: string;
+}
+export interface PipelineRerunResponse {
+  operations: PipelineRerunResponseOperationsList;
+  matchedAssets: number;
+  queuedJobs: number;
+  skippedAssets: number;
+  failedAssets: number;
+}
+export type PipelineRerunResponseOperationsList = OperationResponse[];
+export interface PipelineRuleRequest {
+  field: string;
+  operator: string;
+  value: JsonValue;
+}
+export interface PipelineRuleResponse {
+  field: string;
+  operator: string;
+  value: JsonValue;
+}
+export interface ProcessorCallbackPayload {
+  status: string;
+  jobId: string;
+  tenantId: string;
+  pipelineRef: string;
+  profile?: string;
+  storageKey?: string;
+  checksumSha256?: string;
+  sizeBytes?: number;
+  contentType?: string;
+  assetId?: string;
+  versionId?: string;
+  metadata?: JsonValue;
+  diagnostics?: JsonValue;
+  pipelineFingerprint?: string;
+  cacheHints?: JsonValue;
+  error?: string;
+  computeMillis?: number;
+}
+export interface RegisteredAsset {
+  tenantId: string;
+  bucketName: string;
+  assetId: string;
+  createdAt: string;
+  updatedAt: string;
+  metadata: JsonValue;
+}
+export interface SmartAlbumListResponse {
+  items: SmartAlbumListResponseItemsList;
+}
+export type SmartAlbumListResponseItemsList = SmartAlbumResponse[];
+export interface SmartAlbumRecordResponse {
+  tenantId: string;
+  albumId: string;
+  displayName: string;
+  description?: string;
+  definition: JsonValue;
+  createdAt: string;
+  updatedAt: string;
+  lockVersion: number;
+}
+export interface SmartAlbumResponse {
+  album: SmartAlbumRecordResponse;
+  rules: SmartAlbumResponseRulesList;
+}
+export type SmartAlbumResponseRulesList = SmartAlbumRuleResponse[];
+export interface SmartAlbumRuleRequest {
+  ruleId?: string;
+  field: string;
+  operator: string;
+  value: JsonValue;
+}
+export interface SmartAlbumRuleResponse {
+  tenantId: string;
+  albumId: string;
+  ruleId: string;
+  field: string;
+  operator: string;
+  value: JsonValue;
+  createdAt: string;
+}
+export interface UpdateCollectionRequest {
+  displayName?: string;
+  description?: string;
+  expectedLockVersion?: number;
+}
+export interface UpdatePipelineRequest {
+  displayName?: string;
+  notes?: string;
+  pipelinePrefix?: string;
+  cdnHost?: string;
+  enabled?: boolean;
+  renditions?: UpdatePipelineRequestRenditionsList;
+  rules?: UpdatePipelineRequestRulesList;
+  expectedLockVersion?: number;
+}
+export type UpdatePipelineRequestRenditionsList = PipelineRenditionRequest[];
+export type UpdatePipelineRequestRulesList = PipelineRuleRequest[];
+export interface UpdateSmartAlbumRequest {
+  displayName?: string;
+  description?: string;
+  definition?: JsonValue;
+  expectedLockVersion?: number;
+  rules: UpdateSmartAlbumRequestRulesList;
+}
+export type UpdateSmartAlbumRequestRulesList = SmartAlbumRuleRequest[];
+export interface UploadedAssetVersion {
+  tenantId: string;
+  assetId: string;
+  versionId: string;
+  ordinal: number;
+  storageKey: string;
+  checksumAlgorithm: string;
+  checksum: string;
+  sizeBytes: number;
+  status: string;
+  createdAt: string;
+}
+export interface UploadedVersionPayload {
+  versionId: string;
+  ordinal: number;
+  storageKey: string;
+  checksumAlgorithm: string;
+  checksum: string;
+  sizeBytes: number;
+  status: string;
+  createdAt: string;
+}
+export interface UploadTicket {
+  uploadUrl: string;
+  uploadToken: string;
+  expiresAt: string;
+}

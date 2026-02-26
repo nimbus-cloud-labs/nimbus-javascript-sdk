@@ -29,7 +29,10 @@ describe('TypeScript SDK end-to-end surface', () => {
 
   it('invokes IAM operations with auth and JSON payloads', async () => {
     const client = IamServiceClient.fromConfig(buildConfig());
-    const result = await client.assumeRole({ role: 'admin', session: 'default' });
+    const result = await client.assumeRole({
+      roleUrn: 'urn:nimbus:iam::tenant:role/admin',
+      sessionName: 'default'
+    });
     expect(result).toEqual({ principal: 'test-principal' });
 
     const assumeCall = backend.requests.find((req) => req.path === '/iam/assume-role');
@@ -56,7 +59,7 @@ describe('TypeScript SDK end-to-end surface', () => {
       { id: 'op-123', status: 'succeeded' }
     ]);
     const compute = ComputeServiceClient.fromConfig(buildConfig({ lro: poller }));
-    const handle = await compute.createVmAndWait({ name: 'vm-1' });
+    const handle = await compute.createVmAndWait({ shapeId: 'vm-small' });
     expect(handle.status).toBe('succeeded');
     expect(backend.state.lastIdempotencyKey).toBeDefined();
   });

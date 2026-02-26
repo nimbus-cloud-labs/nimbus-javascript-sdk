@@ -1,7 +1,13 @@
 import { sha256Hex } from '@nimbus-cloud/sdk-core';
 
 import { DamManagementServiceClient } from './client';
-import type { IngestionResponse, JsonValue, OperationResponse } from './types';
+import type {
+  CompleteIngestionRequest,
+  IngestionRequest,
+  IngestionResponse,
+  JsonValue,
+  OperationResponse
+} from './types';
 
 /**
  * Canonical parameters required to begin an ingestion session.
@@ -14,8 +20,8 @@ export interface IngestionParams {
 }
 
 interface UploadTicketPayload {
-  upload_url: string;
-  upload_token: string;
+  uploadUrl: string;
+  uploadToken: string;
 }
 
 /**
@@ -28,27 +34,27 @@ export class DamIngestionUploader {
   async uploadBytes(params: IngestionParams): Promise<OperationResponse> {
     const payload = await this.normalizeContent(params.content);
     const checksum = await this.computeChecksum(payload);
-    const ingestionRequest = {
-      display_name: params.displayName,
-      media_type: params.mediaType,
-      content_length: payload.byteLength,
-      checksum_algorithm: 'sha256',
+    const ingestionRequest: IngestionRequest = {
+      displayName: params.displayName,
+      mediaType: params.mediaType,
+      contentLength: payload.byteLength,
+      checksumAlgorithm: 'sha256',
       checksum,
       metadata: params.metadata ?? {}
     };
 
-    const beginResponse = await this.client.beginAssetIngestion(ingestionRequest as JsonValue);
+    const beginResponse = await this.client.beginAssetIngestion(ingestionRequest);
     const ticket = this.extractTicket(beginResponse);
     await this.putObject(ticket, payload, params.mediaType);
 
-    const completeRequest = {
-      upload_token: ticket.upload_token,
-      checksum_algorithm: 'sha256',
+    const completeRequest: CompleteIngestionRequest = {
+      uploadToken: ticket.uploadToken,
+      checksumAlgorithm: 'sha256',
       checksum,
-      size_bytes: payload.byteLength
+      sizeBytes: payload.byteLength
     };
 
-    return this.client.completeAssetIngestion(completeRequest as JsonValue);
+    return this.client.completeAssetIngestion(completeRequest);
   }
 
   private async normalizeContent(content: ArrayBuffer | ArrayBufferView | Blob): Promise<Uint8Array> {
@@ -73,16 +79,16 @@ export class DamIngestionUploader {
   }
 
   private extractTicket(response: IngestionResponse): UploadTicketPayload {
-    const upload = (response as Record<string, unknown>)?.upload as Record<string, unknown> | undefined;
+    const upload = response.upload;
     if (!upload) {
       throw new Error('beginAssetIngestion response missing upload ticket');
     }
-    const uploadUrl = upload.upload_url;
-    const uploadToken = upload.upload_token;
+    const uploadUrl = upload.uploadUrl;
+    const uploadToken = upload.uploadToken;
     if (typeof uploadUrl !== 'string' || typeof uploadToken !== 'string') {
       throw new Error('upload ticket is missing required fields');
     }
-    return { upload_url: uploadUrl, upload_token: uploadToken };
+    return { uploadUrl, uploadToken };
   }
 
   private async putObject(ticket: UploadTicketPayload, payload: Uint8Array, mediaType: string): Promise<void> {
@@ -90,10 +96,10 @@ export class DamIngestionUploader {
       throw new Error('global fetch API is not available');
     }
     const body: BodyInit = this.toBodyBuffer(payload);
-    const response = await fetch(ticket.upload_url, {
+    const response = await fetch(ticket.uploadUrl, {
       method: 'PUT',
       headers: {
-        'x-nimbus-upload-token': ticket.upload_token,
+        'x-nimbus-upload-token': ticket.uploadToken,
         'content-type': mediaType
       },
       body
