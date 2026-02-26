@@ -39,18 +39,6 @@ export class KmsServiceClient {
     return result.body;
   }
 
-  async encrypt(body: EncryptRequest): Promise<EncryptResponse> {
-    const pathParams: Array<[string, string]> = [];
-    const result = await this.inner.invoke<EncryptResponse>(ENCRYPT_SPEC, pathParams, body);
-    return result.body;
-  }
-
-  async generateDataKey(body: GenerateDataKeyRequest): Promise<GenerateDataKeyResponse> {
-    const pathParams: Array<[string, string]> = [];
-    const result = await this.inner.invoke<GenerateDataKeyResponse>(GENERATE_DATA_KEY_SPEC, pathParams, body);
-    return result.body;
-  }
-
   async disableKey(params: DisableKeyPathParams, body: DisableKeyRequest): Promise<KeyMetadataResponse> {
     const pathParams: Array<[string, string]> = [
       ['key_id', String(params.key_id)]
@@ -67,11 +55,15 @@ export class KmsServiceClient {
     return result.body;
   }
 
-  async rotateKey(params: RotateKeyPathParams, body: RotateKeyRequest): Promise<KeyMetadataResponse> {
-    const pathParams: Array<[string, string]> = [
-      ['key_id', String(params.key_id)]
-    ];
-    const result = await this.inner.invoke<KeyMetadataResponse>(ROTATE_KEY_SPEC, pathParams, body);
+  async encrypt(body: EncryptRequest): Promise<EncryptResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<EncryptResponse>(ENCRYPT_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async generateDataKey(body: GenerateDataKeyRequest): Promise<GenerateDataKeyResponse> {
+    const pathParams: Array<[string, string]> = [];
+    const result = await this.inner.invoke<GenerateDataKeyResponse>(GENERATE_DATA_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -80,6 +72,14 @@ export class KmsServiceClient {
       ['key_id', String(params.key_id)]
     ];
     const result = await this.inner.invoke<KeyMetadataResponse>(PURGE_KEY_SPEC, pathParams, body);
+    return result.body;
+  }
+
+  async rotateKey(params: RotateKeyPathParams, body: RotateKeyRequest): Promise<KeyMetadataResponse> {
+    const pathParams: Array<[string, string]> = [
+      ['key_id', String(params.key_id)]
+    ];
+    const result = await this.inner.invoke<KeyMetadataResponse>(ROTATE_KEY_SPEC, pathParams, body);
     return result.body;
   }
 
@@ -117,11 +117,11 @@ export interface EnableKeyPathParams {
   key_id: string;
 }
 
-export interface RotateKeyPathParams {
+export interface PurgeKeyPathParams {
   key_id: string;
 }
 
-export interface PurgeKeyPathParams {
+export interface RotateKeyPathParams {
   key_id: string;
 }
 
@@ -173,28 +173,6 @@ const DECRYPT_DATA_KEY_SPEC: OperationSpec = {
   lro: false
 };
 
-const ENCRYPT_SPEC: OperationSpec = {
-  name: 'Encrypt',
-  method: SdkHttpMethod.Post,
-  uri: '/crypto/encrypt',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: true,
-  pagination: undefined,
-  lro: false
-};
-
-const GENERATE_DATA_KEY_SPEC: OperationSpec = {
-  name: 'GenerateDataKey',
-  method: SdkHttpMethod.Post,
-  uri: '/crypto/generate-data-key',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: true,
-  pagination: undefined,
-  lro: false
-};
-
 const DISABLE_KEY_SPEC: OperationSpec = {
   name: 'DisableKey',
   method: SdkHttpMethod.Post,
@@ -217,10 +195,21 @@ const ENABLE_KEY_SPEC: OperationSpec = {
   lro: false
 };
 
-const ROTATE_KEY_SPEC: OperationSpec = {
-  name: 'RotateKey',
+const ENCRYPT_SPEC: OperationSpec = {
+  name: 'Encrypt',
   method: SdkHttpMethod.Post,
-  uri: '/keys/{key_id}/rotate',
+  uri: '/crypto/encrypt',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const GENERATE_DATA_KEY_SPEC: OperationSpec = {
+  name: 'GenerateDataKey',
+  method: SdkHttpMethod.Post,
+  uri: '/crypto/generate-data-key',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,
@@ -232,6 +221,17 @@ const PURGE_KEY_SPEC: OperationSpec = {
   name: 'PurgeKey',
   method: SdkHttpMethod.Post,
   uri: '/keys/{key_id}/purge',
+  successCode: 200,
+  additionalSuccessResponses: [],
+  idempotent: true,
+  pagination: undefined,
+  lro: false
+};
+
+const ROTATE_KEY_SPEC: OperationSpec = {
+  name: 'RotateKey',
+  method: SdkHttpMethod.Post,
+  uri: '/keys/{key_id}/rotate',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: true,

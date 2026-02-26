@@ -2,178 +2,122 @@
 export type JsonPrimitive = string | number | boolean | null;
 export interface JsonObject { [key: string]: JsonValue; }
 export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
-export interface CancelKeyDeletionRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-}
+export type CancelKeyDeletionRequest = Record<string, never>;
 export interface CreateKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  region: JsonValue;
-  keySpec: KeySpec;
-  keyUsage: KeyUsage;
-  algorithm: EncryptionAlgorithm;
-  alias?: JsonValue;
-  tags?: KeyTagsMap;
+  keySpec: string;
+  keyUsage: string;
+  algorithm: string;
+  alias?: string;
+  tags?: CreateKeyRequestTagsMap;
+  trustPolicy?: JsonValue;
 }
+export type CreateKeyRequestTagsMap = Record<string, string>;
 export interface DecryptDataKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  ciphertextFormat: JsonValue;
+  keyId: string;
+  ciphertextFormat: string;
   encryptedDataKey: string;
-  encryptionContext?: EncryptionContextMap;
+  encryptionContext?: DecryptDataKeyRequestEncryptionContextMap;
 }
+export type DecryptDataKeyRequestEncryptionContextMap = Record<string, string>;
 export interface DecryptDataKeyResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
+  keyId: string;
   plaintextDataKey: string;
 }
 export interface DecryptRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  algorithm: EncryptionAlgorithm;
-  ciphertextFormat: JsonValue;
+  keyId: string;
+  algorithm: string;
+  ciphertextFormat: string;
   ciphertext: string;
   nonce: string;
-  encryptionContext?: EncryptionContextMap;
+  encryptionContext?: DecryptRequestEncryptionContextMap;
 }
+export type DecryptRequestEncryptionContextMap = Record<string, string>;
 export interface DecryptResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
+  keyId: string;
   plaintext: string;
 }
-export interface DisableKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-}
-export interface EnableKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-}
-export type EncryptionAlgorithm = 'AES_128_GCM' | 'AES_256_GCM' | 'CHACHA20_POLY1305';
-export type EncryptionContextMap = Record<string, JsonValue>;
+export type DisableKeyRequest = Record<string, never>;
+export type EnableKeyRequest = Record<string, never>;
 export interface EncryptRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  algorithm: EncryptionAlgorithm;
+  keyId: string;
+  algorithm: string;
   plaintext: string;
-  encryptionContext?: EncryptionContextMap;
+  encryptionContext?: EncryptRequestEncryptionContextMap;
 }
+export type EncryptRequestEncryptionContextMap = Record<string, string>;
 export interface EncryptResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
-  algorithm: EncryptionAlgorithm;
-  ciphertextFormat: JsonValue;
+  keyId: string;
+  algorithm: string;
+  ciphertextFormat: string;
   ciphertext: string;
   nonce: string;
   encryptionContextHash?: string;
 }
 export interface GenerateDataKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  algorithm: EncryptionAlgorithm;
+  keyId: string;
+  algorithm: string;
   keyBytes: number;
-  encryptionContext?: EncryptionContextMap;
+  encryptionContext?: GenerateDataKeyRequestEncryptionContextMap;
 }
+export type GenerateDataKeyRequestEncryptionContextMap = Record<string, string>;
 export interface GenerateDataKeyResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
-  ciphertextFormat: JsonValue;
+  keyId: string;
+  ciphertextFormat: string;
   plaintextDataKey: string;
   encryptedDataKey: string;
   encryptionContextHash?: string;
 }
 export interface KeyMetadataResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
-  alias?: JsonValue;
-  tenantId: JsonValue;
-  region: JsonValue;
-  state: KeyState;
-  keySpec: KeySpec;
-  keyUsage: KeyUsage;
-  algorithm: EncryptionAlgorithm;
+  keyId: string;
+  alias?: string;
+  state: string;
+  keySpec: string;
+  keyUsage: string;
+  algorithm: string;
   pendingDeletionAt?: string;
   createdAt: string;
   updatedAt: string;
-  tags?: KeyTagsMap;
+  tags?: KeyMetadataResponseTagsMap;
+  trustPolicy?: JsonValue;
 }
-export type KeySpec = 'SymmetricDefault';
-export type KeyState = 'Pending' | 'Active' | 'Disabled' | 'ScheduledDeletion' | 'Deleted';
-export type KeyTagsMap = Record<string, string>;
-export type KeyUsage = 'EncryptDecrypt' | 'DataKeyWrapping' | 'SignVerify';
-export interface PurgeKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
+export type KeyMetadataResponseTagsMap = Record<string, string>;
+export type PurgeKeyRequest = Record<string, never>;
+export interface PutTenantAlgorithmPolicyRequestPayload {
+  allowedAlgorithms: PutTenantAlgorithmPolicyRequestPayloadAllowedAlgorithmsList;
+  defaultAlgorithm: string;
 }
-export interface RotateKeyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
+export type PutTenantAlgorithmPolicyRequestPayloadAllowedAlgorithmsList = string[];
+export interface PutTenantQuotaPolicyRequestPayload {
+  requestsPerSecond: number;
 }
+export type RotateKeyRequest = Record<string, never>;
 export interface ScheduleKeyDeletionRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
   pendingWindowDays: number;
 }
-export type SigningAlgorithm = 'HMAC_SHA256';
 export interface SignRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  signingAlgorithm: SigningAlgorithm;
+  keyId: string;
+  signingAlgorithm: string;
   message: string;
-  signingContext?: EncryptionContextMap;
+  signingContext?: SignRequestSigningContextMap;
 }
+export type SignRequestSigningContextMap = Record<string, string>;
 export interface SignResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
-  signingAlgorithm: SigningAlgorithm;
+  keyId: string;
+  signingAlgorithm: string;
   signatureFormat: string;
   signature: string;
   signingContextHash?: string;
 }
 export interface VerifyRequest {
-  requestId: JsonValue;
-  idempotencyKey: JsonValue;
-  tenantId: JsonValue;
-  principalId: JsonValue;
-  keyId: JsonValue;
-  signingAlgorithm: SigningAlgorithm;
+  keyId: string;
+  signingAlgorithm: string;
   message: string;
   signature: string;
-  signingContext?: EncryptionContextMap;
+  signingContext?: VerifyRequestSigningContextMap;
 }
+export type VerifyRequestSigningContextMap = Record<string, string>;
 export interface VerifyResponse {
-  requestId: JsonValue;
-  keyId: JsonValue;
-  signingAlgorithm: SigningAlgorithm;
+  keyId: string;
+  signingAlgorithm: string;
   valid: boolean;
 }
