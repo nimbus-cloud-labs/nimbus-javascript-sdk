@@ -1,6 +1,6 @@
 // Generated client – do not edit.
 import { NimbusClient, OperationHandle, OperationSpec, Paginator, SdkConfig, SdkHttpMethod } from '@nimbus-cloud/sdk-core';
-import type { BootLookupPayload, BootLookupResponse, BootRegistryEntry, BootRegistryUpsertPayload, BootstrapCredentialsBody, BootstrapCredentialsResponse, CreateNetworkPayload, CreateNicPayload, CreateVmPayload, FailPayload, HeartbeatPayload, HostJobResponse, HostShutdownResponse, IdempotencyListResponse, InterfacePayload, JsonValue, RotateAgentCredentialsRequest, SwitchPayload, UpdateNetworkPayload, VmMigrationRequestPayload } from './types';
+import type { BootLookupPayload, BootLookupResponse, BootRegistryEntry, BootRegistryUpsertPayload, BootstrapCredentialsBody, BootstrapCredentialsResponse, CreateNetworkPayload, CreateNicPayload, CreateVmPayload, FailPayload, HeartbeatPayload, HostJobResponse, HostShutdownResponse, InterfacePayload, JsonValue, RotateAgentCredentialsRequest, SwitchPayload, UpdateNetworkPayload, VmMigrationRequestPayload } from './types';
 
 export class ComputeServiceClient {
   constructor(private readonly inner: NimbusClient) {}
@@ -148,12 +148,6 @@ export class ComputeServiceClient {
   async heartbeat(body: HeartbeatPayload): Promise<JsonValue> {
     const pathParams: Array<[string, string]> = [];
     const result = await this.inner.invoke<JsonValue>(HEARTBEAT_SPEC, pathParams, body);
-    return result.body;
-  }
-
-  async listIdempotencyRecords(): Promise<IdempotencyListResponse> {
-    const pathParams: Array<[string, string]> = [];
-    const result = await this.inner.invoke<IdempotencyListResponse>(LIST_IDEMPOTENCY_RECORDS_SPEC, pathParams, undefined);
     return result.body;
   }
 
@@ -487,17 +481,6 @@ const HEARTBEAT_SPEC: OperationSpec = {
   name: 'Heartbeat',
   method: SdkHttpMethod.Post,
   uri: '/heartbeat',
-  successCode: 200,
-  additionalSuccessResponses: [],
-  idempotent: false,
-  pagination: undefined,
-  lro: false
-};
-
-const LIST_IDEMPOTENCY_RECORDS_SPEC: OperationSpec = {
-  name: 'ListIdempotencyRecords',
-  method: SdkHttpMethod.Get,
-  uri: '/internal/idempotency',
   successCode: 200,
   additionalSuccessResponses: [],
   idempotent: false,

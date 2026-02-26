@@ -104,21 +104,6 @@ export interface HostShutdownResponse {
   stopJobIds: HostShutdownResponseStopJobIdsList;
 }
 export type HostShutdownResponseStopJobIdsList = string[];
-export interface IdempotencyListResponse {
-  records: IdempotencyListResponseRecordsList;
-}
-export type IdempotencyListResponseRecordsList = IdempotencyRecord[];
-export interface IdempotencyRecord {
-  principalUrn: string;
-  endpointScope: string;
-  idempotencyKey: string;
-  canonicalHash: string;
-  responseStatus?: number;
-  jobId?: string;
-  createdAt: string;
-  lastSeenAt: string;
-  expiresAt: string;
-}
 export interface InterfacePayload {
   iface: string;
   hostId: string;
